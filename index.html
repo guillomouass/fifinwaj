@@ -704,6 +704,63 @@ input[type=range] {
       <div class="card-title">Analyse par profil</div>
       <div id="profil-analyse"></div>
     </div>
+    <div class="card" id="analyse-ia-bloc" style="display:none">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+        <div class="card-title" style="margin:0">🧠 Analyse fondamentale</div>
+        <div id="analyse-ia-loading" style="display:none">
+          <div class="loading-spin"></div>
+        </div>
+      </div>
+
+      <!-- VERDICT -->
+      <div id="ia-verdict" style="display:none;margin-bottom:16px;padding:14px;border-radius:12px;border-left:4px solid var(--amber)">
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted);margin-bottom:6px">VERDICT</div>
+        <div id="ia-verdict-text" style="font-size:17px;font-weight:700;color:var(--brown);line-height:1.4"></div>
+        <div id="ia-decision-badge" style="display:inline-block;margin-top:8px;padding:6px 16px;border-radius:20px;font-size:13px;font-weight:700"></div>
+      </div>
+
+      <!-- SECTIONS -->
+      <div id="ia-sections" style="display:none">
+        <div style="margin-bottom:14px">
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted);margin-bottom:6px">🏢 Business Model</div>
+          <div id="ia-business" style="font-size:14px;color:var(--text-muted);line-height:1.7"></div>
+        </div>
+        <div style="height:1px;background:var(--border);margin:12px 0"></div>
+        <div style="margin-bottom:14px">
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted);margin-bottom:6px">💰 Santé financière</div>
+          <div id="ia-sante" style="font-size:14px;color:var(--text-muted);line-height:1.7"></div>
+        </div>
+        <div style="height:1px;background:var(--border);margin:12px 0"></div>
+        <div style="margin-bottom:14px">
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted);margin-bottom:6px">🏰 MOAT (Avantage concurrentiel)</div>
+          <div id="ia-moat" style="font-size:14px;color:var(--text-muted);line-height:1.7"></div>
+        </div>
+        <div style="height:1px;background:var(--border);margin:12px 0"></div>
+        <div style="margin-bottom:14px">
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted);margin-bottom:6px">🚀 Perspectives de croissance</div>
+          <div id="ia-croissance" style="font-size:14px;color:var(--text-muted);line-height:1.7"></div>
+        </div>
+        <div style="height:1px;background:var(--border);margin:12px 0"></div>
+        <div style="margin-bottom:14px">
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted);margin-bottom:6px">⚠️ Risques</div>
+          <div id="ia-risques" style="font-size:14px;color:var(--text-muted);line-height:1.7;padding:10px;background:#FFF8F0;border-radius:8px"></div>
+        </div>
+        <div style="height:1px;background:var(--border);margin:12px 0"></div>
+        <div style="margin-bottom:14px">
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted);margin-bottom:6px">🌍 Facteurs macroéconomiques</div>
+          <div id="ia-macro" style="font-size:14px;color:var(--text-muted);line-height:1.7"></div>
+        </div>
+        <div style="height:1px;background:var(--border);margin:12px 0"></div>
+        <div style="margin-bottom:0">
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted);margin-bottom:6px">⚡ Enjeux en temps réel</div>
+          <div id="ia-enjeux" style="font-size:14px;color:var(--text-muted);line-height:1.7"></div>
+        </div>
+      </div>
+
+      <div id="ia-error" style="display:none;color:var(--danger);font-size:13px;padding:10px;background:#FFEBEE;border-radius:8px">
+        Analyse indisponible pour le moment.
+      </div>
+    </div>
   </div>
 
   <div class="card">
@@ -966,8 +1023,8 @@ const nameToTicker = {
   'totalenergies': 'TTE.PA', 'bnp': 'BNP.PA', 'bnp paribas': 'BNP.PA',
   'airbus': 'AIR.PA', 'sanofi': 'SAN.PA', 'loreal': 'OR.PA',
   'hermes': 'RMS.PA', 'safran': 'SAF.PA', 'schneider': 'SU.PA',
-  'danone': 'BN.PA', 'renault': 'RNO.PA', 'orange': 'ORA.PA', 'engie': 'ENGI.PA',
-  'vinci': 'DG.PA', 'capgemini': 'CAP.PA', 'dassault': 'DSY.PA',
+  'danone': 'BN.PA', 'renault': 'RNO.PA', 'orange': 'ORA.PA', 'engie': 'ENGIE.PA',
+  'vinci': 'DG.PA', 'veolia': 'VIE.PA', 'kering': 'KER.PA', 'pernod': 'RI.PA', 'air liquide': 'AI.PA', 'legrand': 'LR.PA', 'thales': 'HO.PA', 'bouygues': 'EN.PA', 'publicis': 'PUB.PA', 'sodexo': 'SW.PA', 'vallourec': 'VK.PA', 'capgemini': 'CAP.PA', 'dassault': 'DSY.PA',
   'asml': 'ASML.AS', 'siemens': 'SIE.DE', 'sap': 'SAP.DE',
   'volkswagen': 'VOW3.DE', 'bmw': 'BMW.DE', 'mercedes': 'MBG.DE',
   'adidas': 'ADS.DE', 'nestle': 'NESN.SW', 'ferrari': 'RACE.MI',
@@ -1132,6 +1189,76 @@ async function searchAsset() {
   }
 }
 
+
+// =========================================================
+// ANALYSE DU CONSEILLER
+// =========================================================
+function generateAnalysisInsight(d, insightProfil) {
+  var change = d.prev ? ((d.price - d.prev) / d.prev * 100) : 0;
+  var isUp = change >= 0;
+  var isCrypto = d.exchange === 'Binance' || (d.symbol && d.symbol.indexOf('USD') > -1);
+  var isEU = d.symbol && (d.symbol.indexOf('.PA') > -1 || d.symbol.indexOf('.AS') > -1 || d.symbol.indexOf('.DE') > -1);
+
+  var verdict;
+  if (Math.abs(change) < 0.5) {
+    verdict = "Le marche est calme sur cet actif aujourd'hui. Pas de signal fort dans un sens ou dans l'autre.";
+  } else if (isUp && change > 2) {
+    verdict = (profil === 'speculatif' || profil === 'dynamique')
+      ? "Il y a du momentum. L'actif est en forte hausse, a toi de voir ton timing."
+      : "L'actif monte fort, mais attends une consolidation avant d'entrer si tu es prudent.";
+  } else if (isUp) {
+    verdict = "C'est correct. Legere progression aujourd'hui, la tendance est positive.";
+  } else if (change < -2) {
+    verdict = (profil === 'speculatif' || profil === 'dynamique')
+      ? "Forte baisse — peut etre une opportunite d'achat si les fondamentaux sont solides."
+      : "Franchement c'est pas le bon moment. Attends que la situation se stabilise.";
+  } else {
+    verdict = "Legere baisse aujourd'hui. Rien d'alarmant, surveille les prochaines seances.";
+  }
+
+  var valo = isCrypto
+    ? "Les cryptos n'ont pas de PER. Leur valeur repose sur l'adoption et la confiance du marche."
+    : (d.currency === 'USD'
+      ? "Compare ce prix avec l'historique 52 semaines pour savoir si tu achetes haut ou bas."
+      : "Regarde le PER sectoriel pour savoir si le prix est justifie par les benefices.");
+
+  var qualite = isCrypto
+    ? "La solidite d'une crypto depend de son reseau et ses cas d'usage reels."
+    : (isEU
+      ? "Consulte le rapport annuel : marge nette, ROE, dette. Les boites francaises solides versent un dividende regulier."
+      : "Regarde le FCF, le ROE et la marge nette. Une solide entreprise genere du cash en toute periode.");
+
+  var risques;
+  if (profil === 'prudent') {
+    risques = isCrypto ? "Extremement volatil, a eviter pour un profil prudent." : "Limite ton exposition a 5-10% max de ton portefeuille.";
+  } else if (profil === 'equilibre') {
+    risques = isCrypto ? "Limite les cryptos a 5% de ton portif." : "Diversifie bien, ne depasse pas 15% sur une seule ligne.";
+  } else if (profil === 'dynamique') {
+    risques = isCrypto ? "Jusqu'a 10-15% en crypto c'est raisonnable pour toi." : "Tu peux prendre du risque, mais garde un stop-loss mental.";
+  } else {
+    risques = isCrypto ? "N'investis que ce que tu peux perdre a 100%." : "Gere ta taille de position et tes stops.";
+  }
+
+  var conclusion;
+  if (profil === 'prudent') {
+    conclusion = isCrypto
+      ? "Evite les cryptos. Oriente-toi vers des ETF obligataires ou des fonds euros."
+      : "Une petite position (5%) peut etre envisagee si la boite est solide. Reste sur des ETF en priorite.";
+  } else if (profil === 'equilibre') {
+    conclusion = isUp
+      ? "Ca peut valoir le coup long terme. Investis en DCA plutot qu'en une seule fois."
+      : "Attends une stabilisation avant d'entrer. Un DCA progressif est plus sage.";
+  } else if (profil === 'dynamique') {
+    conclusion = isUp
+      ? "En hausse et fondamentaux solides ? C'est une opportunite a saisir progressivement."
+      : "La baisse peut etre une opportunite si tu crois au potentiel long terme.";
+  } else {
+    conclusion = "A toi de jouer. Entre progressivement et gere bien ton risque.";
+  }
+
+  return { verdict: verdict, valo: valo, qualite: qualite, risques: risques, conclusion: conclusion };
+}
+
 function displayAsset(d) {
   const change = d.prev ? ((d.price - d.prev) / d.prev * 100) : null;
   const isUp = change >= 0;
@@ -1173,6 +1300,14 @@ function displayAsset(d) {
 
   document.getElementById('analyse-result').style.display = 'block';
   document.getElementById('analyse-result').scrollIntoView({ behavior: 'smooth' });
+
+  // Lancer l'analyse IA
+  document.getElementById('analyse-ia-bloc').style.display = 'block';
+  document.getElementById('ia-verdict').style.display = 'none';
+  document.getElementById('ia-sections').style.display = 'none';
+  document.getElementById('ia-error').style.display = 'none';
+  document.getElementById('analyse-ia-loading').style.display = 'flex';
+  analyseIA(d);
 }
 
 function quickSearch(sym) {
@@ -1358,6 +1493,106 @@ const modules = [
       { q: "Quel compte pour investir dans des actions américaines avec le moins de contraintes ?", opts: ["PEA uniquement","CTO uniquement","Les deux selon l'ETF","Livret A"], correct: 2, exp: "Le CTO permet d'investir dans tous les marchés mondiaux sans restriction. Le PEA est limité aux entreprises européennes et ETF éligibles." },
     ]
   }
+  ,
+  {
+    id: 'dca',
+    icon: '📅',
+    title: 'DCA vs Lump Sum',
+    desc: "Investir d'un coup ou progressivement ?",
+    lesson: `<h3 style="font-family:'DM Serif Display',serif;font-size:18px;color:var(--brown);margin-bottom:12px">DCA ou tout mettre d'un coup ?</h3><p><strong>DCA :</strong> Investir une somme fixe à intervalles réguliers. Tu achètes plus de parts quand c'est bas, moins quand c'est haut.</p><br><p><strong>Lump Sum :</strong> Investir tout d'un coup. Statistiquement bat le DCA dans 2/3 des cas sur les marchés haussiers.</p><br><p><strong>Stratégie hybride :</strong> 50-60% immédiatement + le reste en DCA sur 6-12 mois. Meilleur équilibre entre rendement et sécurité émotionnelle.</p><br><p><strong>Règle d'or :</strong> Le meilleur investissement est celui que tu peux tenir sans paniquer.</p>`,
+    questions: [
+      { q: "Que signifie DCA ?", opts: ["Daily Cash Allocation","Dollar Cost Averaging","Dynamic Capital Assessment","Dividend Cash Accrual"], correct: 1, exp: "DCA = Dollar Cost Averaging : investir une somme fixe à intervalles réguliers pour lisser le prix moyen d'achat." },
+      { q: "Quelle méthode bat l'autre dans 2/3 des cas ?", opts: ["Le DCA","Le Lump Sum","Équivalent","Ça dépend"], correct: 1, exp: "Le Lump Sum bat le DCA dans ~67% des cas car l'argent reste investi plus longtemps sur des marchés globalement haussiers." },
+      { q: "Quel est l'avantage principal du DCA ?", opts: ["Rendement supérieur","Réduction du risque émotionnel","Moins de frais","Plus d'actifs accessibles"], correct: 1, exp: "Le DCA réduit le risque d'investir au plus mauvais moment et facilite la discipline sur le long terme." },
+      { q: "Avec le DCA, quand achètes-tu plus de parts ?", opts: ["Quand les prix montent","Quand les prix baissent","Toujours la même quantité","Jamais"], correct: 1, exp: "Quand les prix baissent, ton versement fixe achète plus de parts — c'est l'avantage mécanique du DCA." },
+      { q: "La stratégie hybride consiste à :", opts: ["Tout investir puis retirer la moitié","Investir une partie immédiatement + DCA sur le reste","Alterner chaque année","N'investir que quand ça baisse"], correct: 1, exp: "Hybride = mise initiale importante + DCA sur les mois suivants pour équilibrer rendement et sécurité." },
+    ]
+  },
+  {
+    id: 'portefeuille',
+    icon: '🗂️',
+    title: 'Construction de portefeuille',
+    desc: 'Diversification, allocation, rééquilibrage',
+    lesson: `<h3 style="font-family:'DM Serif Display',serif;font-size:18px;color:var(--brown);margin-bottom:12px">Construire un portefeuille solide</h3><p><strong>Allocation d'actifs :</strong> La répartition entre actions, obligations, cash. Détermine 90% de la performance long terme.</p><br><p><strong>Exemple équilibré :</strong> 60% ETF actions monde + 20% ETF obligataires + 10% actions individuelles + 10% cash/or.</p><br><p><strong>Rééquilibrage annuel :</strong> Ramener l'allocation à sa cible. Force à vendre haut et acheter bas automatiquement.</p><br><p><strong>Intérêts composés :</strong> 1000€ à 7%/an pendant 30 ans = 7 612€. Réinvestir les dividendes est crucial.</p>`,
+    questions: [
+      { q: "Quelle décision détermine ~90% de la performance ?", opts: ["Choix des actions","Allocation d'actifs","Timing d'achat","Frais de courtage"], correct: 1, exp: "L'allocation d'actifs explique ~90% de la variance de performance sur le long terme selon les études académiques." },
+      { q: "En quoi consiste le rééquilibrage ?", opts: ["Vendre tout chaque année","Ramener l'allocation à sa cible","Ajouter seulement de nouveaux actifs","Changer de stratégie"], correct: 1, exp: "Le rééquilibrage ramène le portefeuille à son allocation cible en vendant ce qui a surperformé et achetant ce qui a sous-performé." },
+      { q: "1000€ à 7%/an pendant 30 ans donnent :", opts: ["2 100€","4 000€","7 612€","15 000€"], correct: 2, exp: "Grâce aux intérêts composés : 1000€ × (1.07)^30 = 7 612€. L'effet boule de neige s'accélère dans les dernières années." },
+      { q: "Pourquoi réinvestir les dividendes ?", opts: ["Pour réduire les impôts","Pour les intérêts composés","Pour éviter le rééquilibrage","Plus de liquidités"], correct: 1, exp: "Réinvestir les dividendes achète plus de parts, qui génèrent eux-mêmes des dividendes — l'effet boule de neige s'accélère." },
+      { q: "Quelle proportion max en actions individuelles pour un équilibré ?", opts: ["0%","10-20%","50%","100%"], correct: 1, exp: "Limiter le stock picking à 10-20% du portefeuille, le reste en ETF diversifiés, est la recommandation courante." },
+    ]
+  },
+  {
+    id: 'analyse_fonda',
+    icon: '🔬',
+    title: 'Analyse fondamentale',
+    desc: 'PER, ROE, FCF — lire les chiffres',
+    lesson: `<h3 style="font-family:'DM Serif Display',serif;font-size:18px;color:var(--brown);margin-bottom:12px">Les ratios clés</h3><p><strong>PER :</strong> Prix / Bénéfice. Un PER de 20 = tu payes 20€ pour 1€ de bénéfice. Élevé = croissance attendue OU surévaluation.</p><br><p><strong>PBR :</strong> Prix / Valeur comptable. PBR < 1 = tu achètes l'entreprise moins cher que ses actifs — potentielle opportunité.</p><br><p><strong>ROE :</strong> Bénéfice / Capitaux propres. >15% = excellent. Mesure l'efficacité à générer du profit.</p><br><p><strong>FCF :</strong> Trésorerie réelle générée après investissements. Plus fiable que le bénéfice comptable.</p><br><p><strong>Payout ratio :</strong> % des bénéfices versés en dividende. >80% = risqué.</p>`,
+    questions: [
+      { q: "Un PER de 20 signifie :", opts: ["L'action a monté de 20%","Tu payes 20€ pour 1€ de bénéfice","Dividende de 20%","L'entreprise a 20 ans"], correct: 1, exp: "PER = Prix / BPA. Un PER de 20 : le marché paye 20 fois les bénéfices annuels." },
+      { q: "Un PBR < 1 indique :", opts: ["Action surévaluée","Tu achètes moins cher que les actifs nets","Perte d'argent","Dividende nul"], correct: 1, exp: "PBR < 1 : la capitalisation est inférieure à la valeur comptable — potentielle opportunité de valeur cachée." },
+      { q: "Que mesure le ROE ?", opts: ["Rendement dividende","Efficacité à générer du profit avec les fonds propres","La dette","Croissance CA"], correct: 1, exp: "ROE = Bénéfice / Capitaux propres. Mesure combien l'entreprise génère pour chaque euro des actionnaires." },
+      { q: "Pourquoi le FCF est-il fiable ?", opts: ["Plus facile à calculer","Moins manipulable comptablement","Toujours positif","Inclut les dividendes"], correct: 1, exp: "Le FCF représente la trésorerie réelle. Le bénéfice comptable peut être manipulé via amortissements et provisions." },
+      { q: "Un payout de 90% est :", opts: ["Excellent","Risqué — dividende potentiellement insoutenable","Normal","Signe de solidité"], correct: 1, exp: "Payout de 90% : l'entreprise distribue presque tout. Au moindre choc sur les bénéfices, le dividende pourrait être coupé." },
+    ]
+  },
+  {
+    id: 'macro',
+    icon: '🌐',
+    title: 'Macroéconomie',
+    desc: 'Cycles, inflation, banques centrales',
+    lesson: `<h3 style="font-family:'DM Serif Display',serif;font-size:18px;color:var(--brown);margin-bottom:12px">Comprendre le contexte macro</h3><p><strong>Cycles économiques :</strong> Expansion → Surchauffe → Récession → Reprise. Chaque phase favorise des actifs différents.</p><br><p><strong>Inflation :</strong> Hausse des prix qui érode le cash. Actions, immobilier et or = protections historiques.</p><br><p><strong>Taux directeurs :</strong> Taux hauts = crédit cher = économie ralentit = bourses sous pression.</p><br><p><strong>Fed & BCE :</strong> Leurs décisions influencent tous les marchés mondiaux. Le FOMC se réunit 8 fois par an.</p><br><p><strong>Géopolitique :</strong> Volatilité court terme, mais les marchés rebondissent historiquement sur le long terme.</p>`,
+    questions: [
+      { q: "Que se passe-t-il en bourse quand les taux montent ?", opts: ["Actions toujours en hausse","Actions sous pression","Rien ne change","Dividendes augmentent"], correct: 1, exp: "Taux élevés = crédit plus cher, économie ralentie, obligations plus attractives → pression sur les actions." },
+      { q: "Quel actif protège contre l'inflation ?", opts: ["Cash en banque","Obligations taux fixe","Actions, immobilier, or","Cryptos uniquement"], correct: 2, exp: "Actions, immobilier et or sont les meilleures protections historiques contre l'inflation." },
+      { q: "Que signifie FOMC ?", opts: ["Federal Open Market Committee","French Official Monetary Council","Fund of Market Control","Federal Organization for Market"], correct: 0, exp: "FOMC = Federal Open Market Committee, comité de la Fed qui décide des taux directeurs US 8 fois par an." },
+      { q: "Quelle phase du cycle favorise les actions de croissance ?", opts: ["Récession","Surchauffe","Expansion","Contraction"], correct: 2, exp: "En expansion, la croissance économique booste les bénéfices — favorable aux actions, surtout de croissance." },
+      { q: "Comment les marchés réagissent aux crises géopolitiques ?", opts: ["Effondrement définitif","Volatilité court terme puis rebond","Aucun effet","Toujours en hausse"], correct: 1, exp: "Historiquement, les marchés rebondissent après les chocs (11 sept., Covid, guerres). La tendance longue terme reste haussière." },
+    ]
+  },
+  {
+    id: 'fiscalite_avancee',
+    icon: '⚖️',
+    title: 'Stratégies fiscales avancées',
+    desc: 'Transmission, donation, international',
+    lesson: `<h3 style="font-family:'DM Serif Display',serif;font-size:18px;color:var(--brown);margin-bottom:12px">Optimiser sa fiscalité</h3><p><strong>Assurance-vie et succession :</strong> Jusqu'à 152 500€ par bénéficiaire hors droits de succession (versements avant 70 ans).</p><br><p><strong>Donation :</strong> 100 000€ par parent/enfant tous les 15 ans sans impôt. Anticiper réduit les droits de succession.</p><br><p><strong>Convention franco-américaine :</strong> Retenue à la source US de 15% au lieu de 30% sur les dividendes US.</p><br><p><strong>PEA et décès :</strong> Clôturé au décès, entre dans la succession classique — contrairement à l'AV.</p>`,
+    questions: [
+      { q: "Montant max transmis via AV sans impôt par bénéficiaire (avant 70 ans) ?", opts: ["50 000€","100 000€","152 500€","300 000€"], correct: 2, exp: "L'AV permet 152 500€ par bénéficiaire hors droits de succession pour les versements avant 70 ans." },
+      { q: "Tous les combien d'années : 100 000€ sans impôt par parent/enfant ?", opts: ["5 ans","10 ans","15 ans","20 ans"], correct: 2, exp: "L'abattement de 100 000€ par parent/enfant se renouvelle tous les 15 ans. Un couple peut donner 200 000€/enfant tous les 15 ans." },
+      { q: "Taux de retenue à la source US pour un Français ?", opts: ["0%","15%","30%","45%"], correct: 1, exp: "Convention franco-américaine : 15% de retenue à la source sur dividendes US (au lieu de 30% sans convention)." },
+      { q: "Que devient le PEA au décès ?", opts: ["Continue pour les héritiers","Clôturé, entre dans la succession","Exonéré d'impôt","Transmis au conjoint auto"], correct: 1, exp: "Le PEA est clôturé au décès — les actifs entrent dans la succession ordinaire, contrairement à l'AV." },
+      { q: "Qu'est-ce que le déficit foncier ?", opts: ["Perte boursière immobilier","Charges > loyers, déductibles du revenu","Emprunt non remboursé","Taxe foncière"], correct: 1, exp: "Déficit foncier = charges (travaux, intérêts) > loyers. Déductible du revenu global jusqu'à 10 700€/an." },
+    ]
+  },
+  {
+    id: 'actif_passif',
+    icon: '🎯',
+    title: 'Gestion active vs passive',
+    desc: 'Stock picking vs ETF — que choisir ?',
+    lesson: `<h3 style="font-family:'DM Serif Display',serif;font-size:18px;color:var(--brown);margin-bottom:12px">Active ou passive ?</h3><p><strong>Gestion passive :</strong> ETF qui répliquent un indice. Frais 0.1-0.5%/an. 80-90% des gérants actifs font moins bien sur 15 ans.</p><br><p><strong>Stock picking :</strong> Choisir soi-même. Potentiellement plus rentable mais chronophage et statistiquement difficile.</p><br><p><strong>Core-Satellite :</strong> 80% ETF (stable) + 20% actions individuelles (surperformance potentielle). Le meilleur des deux mondes.</p><br><p><strong>Allocation type débutant :</strong> 70% MSCI World + 15% Emerging Markets + 15% Small Caps → diversification mondiale en 3 ETF.</p>`,
+    questions: [
+      { q: "% des gérants actifs qui sous-performent leur indice sur 15 ans ?", opts: ["20-30%","50%","80-90%","100%"], correct: 2, exp: "Les études SPIVA : 80-90% des fonds actifs sous-performent leur indice sur 10-15 ans, principalement à cause des frais." },
+      { q: "L'approche Core-Satellite c'est :", opts: ["Uniquement des satellites","80% ETF + 20% actions","50/50 actions-obligations","Changer tous les 6 mois"], correct: 1, exp: "Core = 80% ETF diversifiés (stable) + Satellite = 20% actions individuelles (surperformance potentielle)." },
+      { q: "Pourquoi la passive surperforme souvent ?", opts: ["ETF garantis","Frais très faibles sur le long terme","Indices montent toujours","Gérants actifs peu compétents"], correct: 1, exp: "1% de frais en moins sur 30 ans = ~25% de capital supplémentaire. Les frais ultra-faibles des ETF font la différence." },
+      { q: "Couverture mondiale en 3 ETF :", opts: ["3 ETF US","MSCI World + EM + Small Caps","CAC40 + SP500 + Nikkei","Or + Actions + Obligations"], correct: 1, exp: "MSCI World (développés) + Emerging Markets (émergents) + Small Caps = couverture quasi-totale du marché mondial." },
+      { q: "Principal avantage du stock picking ?", opts: ["Aucun risque","Surperformance potentielle et engagement","Frais moins élevés","Résultats garantis"], correct: 1, exp: "Stock picking = surperformance potentielle + plaisir de suivre des entreprises. Demande du temps et de l'expertise." },
+    ]
+  },
+  {
+    id: 'nominatif',
+    icon: '📋',
+    title: 'Nominatif administré',
+    desc: 'Dividendes majorés, droits renforcés',
+    lesson: `<h3 style="font-family:'DM Serif Display',serif;font-size:18px;color:var(--brown);margin-bottom:12px">Le nominatif administré</h3><p><strong>Définition :</strong> Ton nom est inscrit directement dans le registre des actionnaires de l'entreprise, tout en gardant ton courtier comme intermédiaire.</p><br><p><strong>Avantages :</strong><br>• Dividende majoré +10% après 2 ans (Air Liquide, Engie, Accor, Sanofi, L'Oréal, Total...)<br>• Double droit de vote après 2 ans (loi Florange)<br>• Invitation automatique à l'AG<br>• Offres réservées actionnaires</p><br><p><strong>Contraintes :</strong> Délais de transfert de quelques jours, parfois frais supplémentaires.</p>`,
+    questions: [
+      { q: "Qu'est-ce que le nominatif administré ?", opts: ["Compte bancaire nominatif","Nom inscrit au registre actionnaires en gardant son courtier","Type d'ETF","PEA spécial"], correct: 1, exp: "Nominatif administré = nom dans le registre de l'entreprise, mais ton courtier reste l'intermédiaire pour les transactions." },
+      { q: "Principal avantage financier du nominatif ?", opts: ["Pas de fiscalité","Dividende majoré +10% après 2 ans","Frais nuls","PEA automatique"], correct: 1, exp: "Air Liquide, Engie, L'Oréal... offrent +10% de dividende aux actionnaires au nominatif depuis plus de 2 ans." },
+      { q: "La loi Florange apporte :", opts: ["Exonération fiscale","Double droit de vote après 2 ans","Dividende garanti","AG gratuite"], correct: 1, exp: "Loi Florange (2014) : double droit de vote pour les actionnaires au nominatif depuis +2 ans, renforçant leur pouvoir en AG." },
+      { q: "Principale contrainte du nominatif ?", opts: ["Impossible de vendre","Délais de transfert et frais possibles","Dividendes imposés 50%","Blocage 5 ans"], correct: 1, exp: "Le nominatif implique des délais de quelques jours lors des transactions et parfois des frais supplémentaires selon le courtier." },
+      { q: "Air Liquide au nominatif offre :", opts: ["0% d'impôt","+10% de dividende après 2 ans","Actions gratuites","Rachat garanti"], correct: 1, exp: "Air Liquide est l'exemple emblématique : +10% de dividende pour les actionnaires au nominatif depuis +2 ans." },
+    ]
+  }
+
 ];
 
 let completedModules = JSON.parse(localStorage.getItem('nwaja_completed') || '[]');
@@ -1548,6 +1783,485 @@ function genererConseil() {
   document.getElementById('conseil-result').style.display = 'block';
   document.getElementById('conseil-result').scrollIntoView({ behavior: 'smooth' });
 }
+
+
+
+
+// =========================================================
+// BASE D'ANALYSES FONDAMENTALES (50 actions)
+// =========================================================
+const ANALYSES = {
+  // ===== CAC 40 FRANCE =====
+  'MC.PA': {
+    business: "LVMH est le numéro un mondial du luxe avec 75 maisons de prestige (Louis Vuitton, Dior, Moët, Hennessy, Bulgari...). Le groupe génère ses revenus via 6 pôles : Mode & Maroquinerie (50% du résultat), Vins & Spiritueux, Parfums, Montres, Distribution sélective et Médias.",
+    sante: "Bilan solide avec une marge opérationnelle autour de 25-26%. La dette est maîtrisée et le FCF très élevé. Dividende régulièrement augmenté. Le groupe a prouvé sa résilience même en période de crise grâce à sa clientèle aisée peu sensible aux cycles.",
+    moat: "Marque ultra-premium impossible à répliquer, pricing power exceptionnel, patrimoine de maisons historiques (+ de 100 ans pour certaines), réseau de distribution mondial exclusif. Louis Vuitton est la marque la plus puissante du luxe mondial.",
+    croissance: "Expansion forte en Asie (Chine, Japon, Corée du Sud), montée en gamme continue, acquisitions stratégiques (Tiffany en 2021). Le marché du luxe devrait doubler d'ici 2030 porté par l'émergence des classes aisées mondiales.",
+    risques: "Forte exposition à la Chine (30% des ventes) — tout ralentissement économique chinois impacte directement. Risque devise (USD/EUR/CNY). Contrefaçon. Valorisation historiquement élevée (PER 20-25x).",
+    macro: "Taux d'intérêt élevés pèsent sur la valorisation. La reprise du tourisme mondial booste les ventes duty-free. L'appréciation de l'euro pénalise les ventes hors zone euro. La santé de l'économie chinoise est le facteur clé à surveiller.",
+    enjeux: "Ralentissement du marché du luxe observé depuis 2023 en Chine. Pression sur les prix en Asie. Bernard Arnault et la succession au sein de la famille sont un sujet de marché. Concurrence accrue de Kering et Hermès.",
+    profils: { prudent: "ATTENDRE", equilibre: "ACHETER", dynamique: "ACHETER", speculatif: "ACHETER" },
+    avis: { prudent: "Belle valeur mais valorisation élevée. Attends une correction de 10-15% pour entrer.", equilibre: "Incontournable du CAC 40. À acheter progressivement en DCA sur 6-12 mois.", dynamique: "Leader mondial du luxe avec une croissance structurelle. Position cœur de portefeuille.", speculatif: "Solide mais trop peu volatile pour du spéculatif. Préfère des small caps du luxe." }
+  },
+  'TTE.PA': {
+    business: "TotalEnergies est une major pétro-gazière mondiale en transition énergétique. Le groupe opère sur toute la chaîne : exploration, production, raffinage, distribution et énergies renouvelables. Présent dans 130+ pays avec 100 000 employés.",
+    sante: "Cash-flow opérationnel massif quand le pétrole est élevé. Dividende très généreux (rendement 5-6%) et régulièrement augmenté. Dette sous contrôle. Le groupe a généré plus de 20 milliards de FCF en 2023.",
+    moat: "Actifs d'exploration et production difficiles à dupliquer, accords long terme avec États producteurs, expertise technique rare dans le GNL. La transition vers les renouvelables diversifie les revenus.",
+    croissance: "Investissements massifs dans le solaire (SunPower, Total Eren), l'éolien offshore et le GNL. Objectif 100 GW de capacité renouvelable d'ici 2030. Le GNL est en forte demande post-crise ukrainienne.",
+    risques: "Prix du pétrole très volatil — chaque baisse de 10$/baril impacte significativement les résultats. Risque de transition énergétique accéléré. Risque géopolitique dans les pays producteurs (Russie, Afrique). Pression ESG des investisseurs.",
+    macro: "Le prix du pétrole dépend de la politique de l'OPEP+, de la croissance chinoise et des tensions géopolitiques (Moyen-Orient). La transition énergétique crée un risque de long terme mais le pétrole reste indispensable à 10-15 ans.",
+    enjeux: "Guerre en Ukraine a repositionné le GNL européen. Pression croissante des activistes climatiques. Résultats très liés au prix du baril — surveille le WTI et le Brent. Investissements renouvelables encore peu rentables.",
+    profils: { prudent: "ACHETER", equilibre: "ACHETER", dynamique: "ATTENDRE", speculatif: "ATTENDRE" },
+    avis: { prudent: "Dividende solide et valeur refuge. Parfait pour un profil prudent cherchant du rendement.", equilibre: "Bon compromis rendement/risque. Le dividende compense la volatilité du cours.", dynamique: "Moins de croissance qu'une tech. Utile pour diversifier mais pas cœur de portif.", speculatif: "Trop stable pour du spéculatif. Préfère jouer le pétrole via des instruments dérivés." }
+  },
+  'AIR.PA': {
+    business: "Airbus est le leader mondial de la construction aéronautique civile (50% de part de marché avec Boeing). Le groupe produit les familles A220, A320, A330, A350 et A380. Il opère aussi dans la défense et l'espace via Airbus Defence & Space.",
+    sante: "Carnet de commandes record de plus de 8 000 appareils soit 12 ans de production. Marge en amélioration progressive. La dette est raisonnable compte tenu des cycles longs de l'industrie. Dividende en hausse.",
+    moat: "Duopole mondial avec Boeing, barrières à l'entrée quasi-insurmontables (certifications, chaîne de supply chain complexe, cycles de développement de 10+ ans). La famille A320neo est le best-seller mondial.",
+    croissance: "Montée en cadence de production (objectif 75 A320/mois), forte demande Asie-Pacifique, développement de l'hydrogène et SAF (carburant durable). Le trafic aérien mondial devrait doubler d'ici 2040.",
+    risques: "Tensions dans la supply chain (moteurs, composites), risque de change (ventes en USD, coûts en EUR), risques géopolitiques sur les exportations. Boeing en difficulté crée des opportunités mais aussi une pression sur les délais.",
+    macro: "La reprise du trafic aérien post-COVID est totale. Les compagnies renouvellent leurs flottes pour des appareils plus économes en carburant. La hausse du pétrole accélère le renouvellement.",
+    enjeux: "Problèmes récurrents de supply chain retardent les livraisons. Enquêtes sur la qualité. Guillaume Faury (CEO) gère la montée en cadence. Les commandes de l'Asie-Pacifique représentent un enjeu stratégique majeur.",
+    profils: { prudent: "ATTENDRE", equilibre: "ACHETER", dynamique: "ACHETER", speculatif: "ACHETER" },
+    avis: { prudent: "Cyclique et sensible aux crises. Pas idéal pour un profil prudent.", equilibre: "Excellent long terme. Le carnet de commandes offre une visibilité rare.", dynamique: "Croissance structurelle avec le renouvellement mondial des flottes. Conviction forte.", speculatif: "Les retards de livraison créent des points d'entrée. Bon potentiel de rattrapage." }
+  },
+  'SAN.PA': {
+    business: "Sanofi est l'un des leaders mondiaux de la pharmacie. Spécialisé dans l'immunologie, l'oncologie, les maladies rares et les vaccins (Dupixent, Aubagio, Kevzara). Le groupe opère dans 100+ pays avec 90 000 collaborateurs.",
+    sante: "Bilan très solide, génération de cash importante. Dupixent (dermatite atopique) est un blockbuster en forte croissance. Dividende historiquement stable et en hausse. Marge opérationnelle élevée (25-30%).",
+    moat: "Portefeuille de brevets robuste, pipeline de R&D dense, expertise dans les maladies rares (prix élevés, peu de concurrence), relations privilégiées avec les systèmes de santé mondiaux.",
+    croissance: "Dupixent vise 15 milliards d'euros de ventes en 2027. Pipeline prometteur en oncologie et ARNm. Développement en Chine et marchés émergents. Rachat potentiel de biotechs pour enrichir le pipeline.",
+    risques: "Expiration de brevets (falaise brevet), pression des gouvernements sur les prix des médicaments, risque d'échec en R&D (coûts de développement énormes), concurrence des génériques.",
+    macro: "Le vieillissement de la population mondiale est un moteur structurel. Les politiques de maîtrise des dépenses de santé (IRA aux USA) pèsent sur les prix. La transition vers l'ARNm offre de nouvelles perspectives.",
+    enjeux: "Dupixent est le moteur principal — toute déception sur ses ventes impacte le cours. Le pipeline en oncologie est scruté par les analystes. Pression de l'IRA (Inflation Reduction Act) sur les prix aux USA.",
+    profils: { prudent: "ACHETER", equilibre: "ACHETER", dynamique: "ATTENDRE", speculatif: "ATTENDRE" },
+    avis: { prudent: "Valeur défensive par excellence. Dividende sûr, business prévisible.", equilibre: "Bon équilibre rendement/sécurité. Dupixent offre une croissance visible.", dynamique: "Croissance correcte mais pas explosive. Complément de portif plutôt que conviction.", speculatif: "Trop défensif. Regarde plutôt des biotechs plus spéculatives." }
+  },
+  'OR.PA': {
+    business: "L'Oréal est le numéro un mondial de la cosmétique avec 37 marques mondiales (Lancôme, Maybelline, Garnier, Kérastase, La Roche-Posay...). Présent dans 150 pays, le groupe couvre tous les segments : luxe, grand public, professionnel et dermatologique.",
+    sante: "Bilan impeccable, croissance organique régulière de 5-8%/an, marges en hausse constante, dividende en croissance depuis 40+ ans. Une des entreprises les plus rentables du CAC 40 avec un ROE >25%.",
+    moat: "Marques ultra-puissantes dans la beauté, R&D cosmétique imbattable (6% du CA investi), réseau de distribution mondial dense, leadership dans la beauté inclusive et durable. Les habitudes beauté sont très récurrentes.",
+    croissance: "Boom de la beauté premium en Asie, dermocosmétique en forte croissance (La Roche-Posay, CeraVe), beauté de luxe portée par les millennials et Gen Z. Le marché de la beauté mondiale devrait atteindre 750 milliards $ d'ici 2030.",
+    risques: "Exposition Chine importante. Concurrence des marques indépendantes et DTC (Direct-to-Consumer). Valorisation premium (PER 30-35x). Tendance naturalité et clean beauty qui challengent les formulations.",
+    macro: "La demande de beauté est peu cyclique — même en récession les consommateurs maintiennent leurs achats beauté (effet rouge à lèvres). La montée en gamme mondiale profite à L'Oréal Luxe.",
+    enjeux: "Intégration de Aesop (acquisition 2023 pour 2,5 Mds$). Accélération du e-commerce. Pression en Chine post-COVID. Innovation beauté tech (diagnostic personnalisé, impression 3D cosmétique).",
+    profils: { prudent: "ACHETER", equilibre: "ACHETER", dynamique: "ACHETER", speculatif: "ATTENDRE" },
+    avis: { prudent: "Valeur de croissance défensive. Dividende en hausse depuis 40 ans. Parfait.", equilibre: "Incontournable. Croissance régulière et qualité de bilan exemplaire.", dynamique: "Croissance structurelle mondiale. Une des meilleures qualités du CAC 40.", speculatif: "Trop premium pour du spéculatif. La croissance est prévisible mais pas explosive." }
+  },
+  'RMS.PA': {
+    business: "Hermès est la maison de luxe la plus exclusive du monde, fondée en 1837. Spécialisée dans la maroquinerie ultra-premium (Birkin, Kelly), la soie, la mode et l'horlogerie. Le groupe reste familial (famille Puech-Guerrand) avec une indépendance totale.",
+    sante: "Les marges opérationnelles d'Hermès (40%+) sont les plus élevées du secteur luxe mondial. Zéro dette, cash massif, croissance organique de 15-20%/an. La marque n'a jamais fait de soldes ni de promotions.",
+    moat: "Le MOAT le plus fort du luxe mondial. La rareté organisée (listes d'attente pour le Birkin), le savoir-faire artisanal unique, le pricing power absolu (+10% de prix/an), la fidélité client exceptionnelle. Impossible à répliquer.",
+    croissance: "Expansion maîtrisée (nouvelles boutiques sélectives), montée en puissance au Japon et en Inde, développement de la maroquinerie homme et des parfums. Hermès ne cherche pas la croissance — la croissance vient à elle.",
+    risques: "Valorisation extrême (PER 50-60x). Très exposé à la clientèle ultra-aisée mondiale. Si Hermès déçoit sur sa croissance, la correction peut être violente. Risque de succession familiale.",
+    macro: "La richesse mondiale des ultra-HNWI (High Net Worth Individuals) est le moteur principal. Hermès bénéficie du tourisme mondial et de l'appétit asiatique pour l'authentique.",
+    enjeux: "Hermès résiste mieux que LVMH au ralentissement chinois. La liste d'attente pour le Birkin reste un phénomène mondial. Axel Dumas (CEO) maintient la stratégie de rareté avec discipline.",
+    profils: { prudent: "ATTENDRE", equilibre: "ATTENDRE", dynamique: "ACHETER", speculatif: "ACHETER" },
+    avis: { prudent: "Qualité absolue mais à PER 55x c'est spéculatif même pour du prudent. Attends.", equilibre: "Valeur d'exception mais prix d'exception. Entre progressivement en DCA.", dynamique: "Le meilleur rapport qualité/durabilité du luxe. Position long terme de conviction.", speculatif: "Le momentum est fort mais la valorisation est tendue. Bonne opportunité sur correction." }
+  },
+  'BNP.PA': {
+    business: "BNP Paribas est la première banque de la zone euro par le bilan. Le groupe opère via 3 pôles : Banque de détail (France, Belgique, Italie), BancWest, et CIB (Corporate & Institutional Banking). Présent dans 65 pays.",
+    sante: "Ratio CET1 solide (13%+), ROE en amélioration, dividende généreux (7-8% de rendement). La hausse des taux depuis 2022 a significativement amélioré la rentabilité bancaire. Bilan de 3 000 milliards d'euros.",
+    moat: "Franchise bancaire massive impossible à répliquer, réseau de distribution dense, relations long terme avec grandes entreprises et États, expertise CIB reconnue mondialement.",
+    croissance: "Transformation digitale accélérée, développement du wealth management, expansion en Europe de l'Est. La normalisation des taux a restauré la profitabilité structurelle des banques.",
+    risques: "Exposition au risque de crédit (hausse des défauts si récession), risque réglementaire (exigences de capital en hausse), concurrence des fintechs, risque souverain européen.",
+    macro: "La hausse des taux BCE est très favorable pour les banques (marge d'intérêt nette). Une récession économique dégraderait la qualité du portefeuille de crédit. Les baisses de taux à venir compresseront les marges.",
+    enjeux: "Stratégie 2025 en cours d'exécution. Pression sur les coûts. Baisse progressive des taux BCE attendue — impact sur les marges. Résistance du portefeuille immobilier commercial surveillée.",
+    profils: { prudent: "ACHETER", equilibre: "ACHETER", dynamique: "ATTENDRE", speculatif: "ATTENDRE" },
+    avis: { prudent: "Dividende élevé et valorisation basse (P/B <0.6). Classique valeur pour prudent.", equilibre: "Bon rendement dividende en attendant la revalorisation. Position défensive solide.", dynamique: "Peu de croissance attendue. Utile pour du rendement mais pas du dynamisme.", speculatif: "Trop régulé et prévisible. Les banques ne sont pas le terrain de jeu spéculatif." }
+  },
+  'SAF.PA': {
+    business: "Safran est un leader mondial de la propulsion aéronautique (CFM56/LEAP avec GE), des équipements avion, de l'atterrissage et de la sécurité (identité biométrique). Le groupe équipe 90% des avions monocouloirs mondiaux via le moteur LEAP.",
+    sante: "Business model récurrent grâce aux services après-vente (MRO) qui représentent 40% du CA. Marges opérationnelles en hausse. Carnet de commandes très solide. Dividende en croissance.",
+    moat: "Quasi-monopole sur les moteurs monocouloirs via la joint-venture CFM avec GE. Chaque moteur installé génère 30 ans de revenus de maintenance. Barrières réglementaires et techniques imbattables.",
+    croissance: "Montée en cadence du LEAP (objectif 2000 moteurs/an), développement du moteur à hydrogène (RISE program), expansion des services MRO. Le trafic aérien en croissance structurelle alimente la demande.",
+    risques: "Concentration sur le LEAP (risque si problème technique), dépendance à Boeing et Airbus, tensions dans la supply chain, risque de change.",
+    macro: "La reprise du trafic aérien mondial est totale. Les compagnies investissent massivement dans les nouvelles générations d'avions plus économes. La décarbonation de l'aviation est un enjeu mais aussi une opportunité.",
+    enjeux: "Montée en cadence difficile face aux goulets d'étranglement. Le programme RISE (moteur propre 2035) est stratégique. Rachat d'actions régulier. Luc Serraf nouveau CEO depuis 2023.",
+    profils: { prudent: "ATTENDRE", equilibre: "ACHETER", dynamique: "ACHETER", speculatif: "ACHETER" },
+    avis: { prudent: "Qualité exceptionnelle mais valorisation élevée. Attends un repli pour entrer.", equilibre: "Incontournable de l'aéronautique. Revenus récurrents et visibilité excellente.", dynamique: "Position de monopole et croissance structurelle. Une des meilleures valeurs françaises.", speculatif: "Momentum fort. Les retards Airbus créent de la volatilité à exploiter." }
+  },
+
+  // ===== US TECH =====
+  'AAPL': {
+    business: "Apple conçoit et vend des iPhones, Mac, iPad, Apple Watch, AirPods et développe l'écosystème de services (App Store, iCloud, Apple TV+, Apple Pay, Apple Music). Les services représentent désormais 25% du CA avec des marges de 70%+.",
+    sante: "Le bilan le plus solide du monde : 160 milliards de cash net, FCF de 100+ milliards par an. Rachat d'actions massif (90 Mds$/an). Marge nette de 25%. Apple est la machine à cash la plus efficace de l'histoire.",
+    moat: "L'écosystème Apple est le plus puissant du monde — une fois dans l'écosystème, le coût de switching est énorme. La marque est la plus valorisée au monde. L'App Store génère 30% de commission sur tout.",
+    croissance: "Services en forte croissance (App Store, iCloud, Apple TV+), Vision Pro (AR/VR), Apple Intelligence (IA générative), expansion en Inde (nouveau marché clé). L'iPhone garde 50%+ du marché premium mondial.",
+    risques: "Saturation du marché iPhone dans les pays développés, dépendance à la Chine (20% des ventes + fabrication), enquêtes antitrust sur l'App Store (Europe, USA), concurrence Samsung et Huawei.",
+    macro: "La normalisation des taux US impacte la valorisation (PER élevé). L'IA générative est un catalyseur majeur. Les tensions USA-Chine sont un risque permanent sur la chaîne d'approvisionnement.",
+    enjeux: "Apple Intelligence (IA intégrée à iOS 18) est le catalyseur 2024-2025. Procès antitrust App Store en Europe (DMA). Diversification de la production vers l'Inde. Rachat d'actions record.",
+    profils: { prudent: "ACHETER", equilibre: "ACHETER", dynamique: "ACHETER", speculatif: "ATTENDRE" },
+    avis: { prudent: "La valeur la plus sûre de la tech. FCF massif et dividende croissant.", equilibre: "Incontournable. L'écosystème est imbattable et les services assurent la croissance.", dynamique: "Apple Intelligence peut relancer le cycle iPhone. Position cœur de portefeuille.", speculatif: "Trop grand pour les gros mouvements. Préfère des valeurs plus volatiles." }
+  },
+  'NVDA': {
+    business: "NVIDIA conçoit des GPU (processeurs graphiques) qui sont devenus les processeurs de référence pour l'IA. Le data center (H100, H200, Blackwell) représente 80%+ du CA. Le gaming, l'automobile et le Metaverse complètent le portfolio.",
+    sante: "Croissance explosive : CA multiplié par 5 en 2 ans. Marges brutes de 75%+, ROE >100%. Cash net positif, pas de dette. FCF de 60+ milliards en 2024. La machine à cash de l'IA.",
+    moat: "CUDA (logiciel propriétaire) crée un lock-in massif — les développeurs IA et chercheurs sont formés sur CUDA depuis 15 ans. Changer de GPU nécessite de réécrire tout le code. NVIDIA a 80%+ du marché GPU IA.",
+    croissance: "Demande IA insatiable (ChatGPT, Gemini, Llama, clouds AWS/Azure/GCP). Blackwell GB200 en déploiement massif. Automotive (conduite autonome) et physique IA (robotique) sont les prochains moteurs.",
+    risques: "Valorisation extrême (PER 30-40x sur forward earnings). Concurrence AMD (MI300), Intel et chips propriétaires des géants (Google TPU, AWS Trainium). Restrictions export vers la Chine. Cycle IA potentiellement volatile.",
+    macro: "L'investissement IA des hyperscalers (Microsoft, Google, Amazon, Meta) est en croissance exponentielle. Les taux US et les attentes de croissance impactent fortement la valorisation de NVIDIA.",
+    enjeux: "Déploiement du Blackwell — les contraintes de production et la demande sont le sujet numéro 1. Les restrictions d'export vers la Chine impactent 20% des revenus potentiels. Jensen Huang est une rock star technologique.",
+    profils: { prudent: "EVITER", equilibre: "ATTENDRE", dynamique: "ACHETER", speculatif: "ACHETER" },
+    avis: { prudent: "Volatilité extrême incompatible avec ton profil. Attends des valeurs plus stables.", equilibre: "Potentiel énorme mais risque de valorisation. Petite position en DCA maximum.", dynamique: "Le roi de l'IA. Position centrale malgré la valorisation élevée.", speculatif: "La meilleure action de la décennie selon beaucoup. Reste investi malgré la volatilité." }
+  },
+  'MSFT': {
+    business: "Microsoft est le leader du cloud d'entreprise (Azure, 2ème mondial), des logiciels (Office 365, Windows), du gaming (Xbox, Activision) et investisseur majeur dans OpenAI. Le cloud représente 50%+ du CA et croît de 25%+/an.",
+    sante: "Bilan exceptionnel : 80 Mds$ de cash, FCF de 70 Mds$/an, marge nette de 35%+. AAA rating. Dividende en croissance depuis 20+ ans. La profitabilité du cloud est en amélioration constante.",
+    moat: "Lock-in massif sur les entreprises (Office 365, Teams, Azure Active Directory). Une fois une entreprise migrée sur Azure, le coût de switching est prohibitif. Microsoft 365 est devenu indispensable.",
+    croissance: "Copilot (IA générative intégrée à Office) à 30$/mois par utilisateur — un multiplicateur de revenus énorme. Azure gagne des parts de marché sur AWS. Gaming après Activision (Call of Duty, King).",
+    risques: "Régulation antitrust (acquisition Activision scrutée), concurrence AWS sur le cloud, risque de commoditisation de l'IA, saturation du marché PC/Windows.",
+    macro: "L'IA générative est le plus grand catalyseur pour Microsoft depuis Internet. Les dépenses IT d'entreprise sont relativement récurrentes même en récession.",
+    enjeux: "Copilot est le produit phare 2024-2025. L'intégration d'Activision doit générer des synergies. La compétition Azure vs AWS vs GCP est intense. Satya Nadella est reconnu comme le meilleur CEO de la tech.",
+    profils: { prudent: "ACHETER", equilibre: "ACHETER", dynamique: "ACHETER", speculatif: "ATTENDRE" },
+    avis: { prudent: "Le plus solide de la tech. Dividende croissant, bilan impeccable, visibilité maximale.", equilibre: "Incontournable. Cloud + IA + Gaming = diversification parfaite.", dynamique: "Copilot peut générer des milliards de revenus supplémentaires. Conviction forte.", speculatif: "Trop prévisible pour du spéculatif. Cherche des valeurs plus cycliques." }
+  },
+  'GOOGL': {
+    business: "Alphabet (Google) domine la recherche en ligne (90% de PDM mondiale), la publicité digitale, YouTube (2ème moteur de recherche), Android et Google Cloud. Le groupe investit massivement dans l'IA (Gemini) et les projets moonshot (Waymo).",
+    sante: "Cash net de 100+ milliards, FCF de 70 Mds$/an, marge nette de 25%. La publicité Search reste une machine à cash imbattable. Google Cloud proche de la rentabilité opérationnelle.",
+    moat: "La recherche Google est un monopole de fait (90% des recherches mondiales). L'index de l'internet créé depuis 25 ans est impossible à répliquer. YouTube a 2 milliards d'utilisateurs actifs.",
+    croissance: "Google Cloud (3ème mondial, croissance 30%+), Gemini et IA générative dans Search, YouTube Shorts vs TikTok, Waymo (conduite autonome) comme option de valeur massive.",
+    risques: "Menace de l'IA générative sur le modèle Search (ChatGPT, Perplexity). Pression réglementaire antitrust massive (USA, Europe). Ralentissement pub en cas de récession.",
+    macro: "La pub digitale dépend de la santé économique globale. L'IA générative est à la fois une menace (pour Search) et une opportunité (pour Cloud et Gemini).",
+    enjeux: "Procès antitrust DOJ américain sur le monopole Search — risque de désinvestissement. Gemini vs GPT-4 : la course à l'IA. YouTube Shorts monétisation. Waymo valorisation cachée.",
+    profils: { prudent: "ATTENDRE", equilibre: "ACHETER", dynamique: "ACHETER", speculatif: "ACHETER" },
+    avis: { prudent: "Risque antitrust important. Attends la résolution judiciaire avant d'entrer.", equilibre: "Valorisation attractive vs Apple/Microsoft. Cloud + IA = croissance durable.", dynamique: "Sous-valorisé vs les peers. Gemini et Cloud sont des catalyseurs puissants.", speculatif: "Potentiel de rattrapage important. Les procès antitrust créent la volatilité à exploiter." }
+  },
+  'AMZN': {
+    business: "Amazon opère 3 moteurs : E-commerce (50% PDM US), AWS (cloud n°1 mondial, 33% PDM), et Publicité (3ème acteur mondial). Prime, Alexa, Kindle et les studios complètent l'écosystème. AWS génère 60%+ du résultat opérationnel.",
+    sante: "Après des années d'investissement massif, Amazon est en phase de monétisation. FCF en forte amélioration, AWS très rentable (marge op. 30%+). Bilan solide. La profitabilité du e-commerce s'améliore via la pub.",
+    moat: "AWS : coûts de migration prohibitifs pour les clients. Prime : 200M+ abonnés fidélisés. Marketplace : effet réseau vendeurs/acheteurs imbattable. La logistique propre crée un avantage coût unique.",
+    croissance: "AWS en ré-accélération (30%+ de croissance), publicité en explosion (50 Mds$/an), santé (Amazon Pharmacy, One Medical), satellites (Kuiper) et IA (Bedrock, Nova).",
+    risques: "Régulation antitrust (DOJ, FTC), concurrence Azure et GCP sur le cloud, cycles de capex élevés pour l'IA, marges e-commerce structurellement faibles.",
+    macro: "Le cloud bénéficie des investissements IA massifs des entreprises. Le e-commerce est mature dans les pays développés. Les taux élevés pèsent sur la valorisation d'Amazon (long duration stock).",
+    enjeux: "IA sur AWS (Bedrock, Trainium chips) : rattraper NVIDIA et Microsoft. Monétisation de la pub Prime Video. Restructuration logistique en cours. Andy Jassy transforme Amazon post-Bezos.",
+    profils: { prudent: "ATTENDRE", equilibre: "ACHETER", dynamique: "ACHETER", speculatif: "ACHETER" },
+    avis: { prudent: "Valorisation et profil de risque inadaptés. Reste sur des valeurs plus stables.", equilibre: "AWS seul justifie la valorisation. La pub est un bonus énorme en croissance.", dynamique: "La phase de monétisation commence. Les marges vont surprendre à la hausse.", speculatif: "Potentiel de rattrapage sur l'IA et la pub. Position agressive justifiée." }
+  },
+  'META': {
+    business: "Meta Platforms possède Facebook (3 Mds users), Instagram, WhatsApp et développe le Metaverse (Quest, Horizon Worlds). La publicité sur le fil (Feed) et les Stories représente 98% du CA. Llama est son modèle IA open-source.",
+    sante: "Rentabilité retrouvée après l'année d'efficacité (22 000 licenciements en 2023). FCF de 50+ Mds$/an, cash net positif, marge nette de 35%+. Rachat d'actions massif.",
+    moat: "Réseau social le plus large de l'histoire (3 Mds+ sur chaque app). Les annonceurs ne peuvent pas se passer de Meta pour toucher les 25-45 ans. Les données comportementales créent un ciblage pub imbattable.",
+    croissance: "Reels (vidéo courte) monétisé à la hauteur de TikTok, IA générative dans les apps (Meta AI), WhatsApp Business en forte croissance, Threads vs Twitter/X.",
+    risques: "Réglementation données personnelles (RGPD Europe, DSA), concurrence TikTok sur les jeunes, capex Metaverse (10 Mds$/an perdus), Zuckerberg concentre tout le pouvoir de vote.",
+    macro: "La pub digitale est cyclique. En récession les budgets pub sont les premiers coupés. L'IA améliore le ROI des annonceurs sur Meta — argument commercial puissant.",
+    enjeux: "Llama 3 et Meta AI intégrés dans toutes les apps. Réglementation TikTok aux USA bénéficie à Meta. Le Metaverse : échec ou option de valeur future ? Threads dépasse 200M d'utilisateurs.",
+    profils: { prudent: "EVITER", equilibre: "ATTENDRE", dynamique: "ACHETER", speculatif: "ACHETER" },
+    avis: { prudent: "Dépendance à la pub et risques réglementaires incompatibles avec ton profil.", equilibre: "Valorisation attractive mais risques réglementaires importants. Petite position max.", dynamique: "Reels + IA + WhatsApp Business = machine à croissance. Position centrale.", speculatif: "Momentum fort depuis l'année d'efficacité. Continue de surperformer le Nasdaq." }
+  },
+  'TSLA': {
+    business: "Tesla fabrique des véhicules électriques (Model 3, Y, S, X, Cybertruck) et développe les solutions d'énergie (Powerwall, Megapack), la conduite autonome (FSD) et les robots (Optimus). Tesla est aussi un acteur de l'IA avec son supercalculateur Dojo.",
+    sante: "Marges brutes sous pression (17% vs 30% en 2022) à cause des baisses de prix agressives. FCF positif. Cash net de 20 Mds$. La profitabilité dépend de volumes en hausse.",
+    moat: "Avance technologique sur la batterie, le logiciel OTA, la recharge Supercharger. FSD est le software autonomie le plus avancé. La marque Tesla est iconique dans l'EV.",
+    croissance: "FSD full autonomy = robotaxi (catalyseur majeur si réalisé). Optimus (robot humanoïde) = potentiel transformationnel. Megapack (stockage énergie) en forte demande. Nouveau Model 2 à 25 000$.",
+    risques: "Concurrence chinoise féroce (BYD, NIO, XPENG) avec coûts inférieurs. Elon Musk = risque de réputation et distraction (xAI, X, SpaceX). Promesses FSD non tenues depuis 10 ans. Marges qui s'érodent.",
+    macro: "Taux élevés pèsent sur les ventes de voitures (crédit auto plus cher). Subventions EV en baisse dans certains pays. La Chine est à la fois le plus grand marché et la plus grande menace concurrentielle.",
+    enjeux: "Robotaxi : Elon Musk a promis un service en 2024. Optimus : 1000 robots en production en 2024. Baisse des prix vs préservation des marges — le grand dilemme de Tesla. Les livraisons T1 2025 déçoivent.",
+    profils: { prudent: "EVITER", equilibre: "EVITER", dynamique: "ATTENDRE", speculatif: "ACHETER" },
+    avis: { prudent: "Volatilité extrême et marges sous pression. Incompatible avec ton profil.", equilibre: "Trop de risques sans visibilité sur la profitabilité. Reste à l'écart.", dynamique: "Attends la confirmation du Robotaxi avant de prendre position.", speculatif: "Si Optimus et FSD se réalisent, c'est une asymétrie massive. Pari à risque élevé." }
+  },
+  'ASML.AS': {
+    business: "ASML est le seul fabricant mondial de machines de lithographie EUV (Extreme Ultra-Violet) indispensables pour graver les puces les plus avancées (3nm, 2nm, 1nm). TSMC, Samsung et Intel dépendent tous d'ASML.",
+    sante: "Marge brute de 50%+, ROE >60%, carnet de commandes de 40+ milliards d'euros. Dividende en forte croissance. Position de monopole qui se traduit par des prix unitaires de 150-350 millions par machine.",
+    moat: "Monopole absolu sur les EUV — il n'y a aucun concurrent capable de produire ces machines. Plus de 30 ans de R&D, 90 000 brevets, supply chain ultra-spécialisée avec Carl Zeiss. Le MOAT le plus fort de l'industrie semis.",
+    croissance: "Transition vers le High-NA EUV (machines à 350M€ pièce), montée en cadence des commandes IA (TSMC, Samsung), ouverture de nouveaux marchés (Intel en USA, émergents). La roadmap des semis nécessite ASML pour les 20 prochaines années.",
+    risques: "Restrictions d'export vers la Chine (30% du CA impacté progressivement), concentration clients (TSMC = 40% du CA), cycle semis volatile, valorisation élevée (PER 30-40x).",
+    macro: "L'explosion de la demande IA accélère les investissements en fabs (TSMC Arizona, Intel Europe). Les restrictions export USA-Chine sont le risque politique majeur.",
+    enjeux: "Les restrictions EUV vers la Chine sont progressivement renforcées. La transition High-NA EUV est le catalyseur 2025-2026. Peter Wennink remplacé par Christophe Fouquet comme CEO.",
+    profils: { prudent: "ATTENDRE", equilibre: "ACHETER", dynamique: "ACHETER", speculatif: "ACHETER" },
+    avis: { prudent: "Qualité extrême mais valorisation élevée et risque Chine. Attends un repli.", equilibre: "Monopole pur jeu sur la semis avancée. Position long terme incontournable.", dynamique: "La meilleure façon de jouer l'IA sans prendre le risque des chip designers.", speculatif: "Risque Chine peut créer des points d'entrée attractifs. Positionnement tactique." }
+  },
+
+  // ===== US Finance & Santé =====
+  'JPM': {
+    business: "JPMorgan Chase est la plus grande banque américaine par les actifs. Elle opère via 4 segments : Consumer Banking, Commercial Banking, Corporate & Investment Banking, et Asset Management. Présente dans 100+ pays.",
+    sante: "Bilan le plus solide du secteur bancaire américain, ROE de 15-17%, dividende en croissance depuis 10+ ans. Jamie Dimon a bâti la banque la plus résistante aux crises. Capital CET1 largement au-dessus des exigences.",
+    moat: "Franchise mondiale imbattable, trop systémique pour faire faillite, réseau de distribution aux USA imbattable, expertise M&A et marchés de capitaux reconnue mondialement.",
+    croissance: "Wealth management en forte croissance, expansion internationale, investissements IA dans le banking. Les taux élevés ont été un cadeau pour les marges d'intérêt.",
+    risques: "Récession économique aux USA, hausse des défauts de crédit immobilier commercial, régulation Basel III endgame qui augmente les exigences de capital, concurrence fintechs.",
+    macro: "La politique de la Fed est le facteur déterminant. Des taux élevés prolongés sont favorables. Une récession profonde serait négative. JPM reste la banque refuge en période de stress.",
+    enjeux: "Succession de Jamie Dimon (planifiée). Immobilier commercial américain sous pression. IA dans le banking (5000 développeurs IA chez JPM). Expansion internationale en Asie.",
+    profils: { prudent: "ACHETER", equilibre: "ACHETER", dynamique: "ATTENDRE", speculatif: "ATTENDRE" },
+    avis: { prudent: "La banque la plus solide au monde. Dividende sûr et valorisation raisonnable.", equilibre: "Excellente valeur de fond de portefeuille. Dividende croissant et bilan irréprochable.", dynamique: "Solide mais peu de catalyseurs de croissance. Complément de portif.", speculatif: "Trop régulé et prévisible. Les banques ne sont pas un terrain de jeu." }
+  },
+  'JNJ': {
+    business: "Johnson & Johnson est un géant pharmaceutique mondial (Innovative Medicine + MedTech) après la séparation de Kenvue (grande consommation). Focus sur l'oncologie, l'immunologie et les dispositifs médicaux.",
+    sante: "Bilan AAA (une des rares entreprises avec la note maximale). Dividende augmenté 62 années consécutives (Dividend King). FCF massif, marges élevées en pharma.",
+    moat: "Portefeuille de brevets solide, leadership en oncologie (Darzalex, Carvykti), réseau de distribution médical mondial, marque institutionnelle dans les hôpitaux.",
+    croissance: "Darzalex (myélome multiple) en forte croissance, pipeline oncologie dense, MedTech robotique (Ottava). Focus sur les thérapies innovantes après la séparation de Kenvue.",
+    risques: "Litiges talc (milliards de dollars de provisions), expiration brevets (Stelara 2025), pression sur les prix des médicaments (IRA), pipeline R&D à surveiller.",
+    macro: "Le vieillissement démographique mondial est structurellement favorable à la pharma. La pression des gouvernements sur les prix des médicaments est le risque systémique du secteur.",
+    enjeux: "Stratégie post-Kenvue (séparation en 2023). Stelara (immunologie) perd son brevet en 2025 — risque de génériques. Les litiges talc doivent être réglés définitivement.",
+    profils: { prudent: "ACHETER", equilibre: "ACHETER", dynamique: "ATTENDRE", speculatif: "EVITER" },
+    avis: { prudent: "Dividend King par excellence. 62 ans de hausse du dividende. Parfait pour ton profil.", equilibre: "Défensif et prévisible. Bonne base de portefeuille avec rendement stable.", dynamique: "Croissance limitée post-Kenvue. Utile pour stabiliser mais pas pour performer.", speculatif: "Pas de place dans un portif spéculatif. Trop défensif et prévisible." }
+  },
+  'V': {
+    business: "Visa opère le réseau de paiement électronique le plus utilisé au monde (4 milliards de cartes, 80+ millions de marchands). Visa ne prête pas d'argent — il perçoit des frais sur chaque transaction. Business model d'infrastructure pure.",
+    sante: "Marge nette de 52%+ (parmi les plus élevées du S&P 500), ROE >40%, FCF de 20 Mds$/an, zéro risque de crédit. Bilan impeccable. Rachat d'actions et dividende en croissance constante.",
+    moat: "Effet réseau parfait : plus de marchands = plus de porteurs = plus de marchands. 4 milliards de cartes en circulation impossible à déloger en une génération. Avec Mastercard, duopole des paiements mondiaux.",
+    croissance: "Monétisation des marchés émergents (Afrique, Asie du Sud, LATAM), B2B payments (Visa B2B Connect), crypto settlements, new flows (transferts transfrontaliers).",
+    risques: "Régulation sur les frais d'interchange (Durbin Amendment, Europe), concurrence des systèmes de paiement alternatifs (Pix au Brésil, UPI en Inde), risque de désintermédiation par les banques centrales (CBDC).",
+    macro: "La dématérialisation des paiements est une tendance séculaire mondiale. Chaque point de croissance du commerce mondial booste Visa. Le tourisme international est un moteur clé.",
+    enjeux: "Procès DOJ antitrust sur la domination de Visa dans les débits américains. Expansion des CBDC (monnaies numériques banques centrales) — risque à long terme. Apple Pay, Google Pay utilisent Visa.",
+    profils: { prudent: "ACHETER", equilibre: "ACHETER", dynamique: "ACHETER", speculatif: "ATTENDRE" },
+    avis: { prudent: "Business modèle parfait : pas de risque crédit, croissance régulière, dividende sûr.", equilibre: "L'une des meilleures actions mondiales. Croissance + sécurité = équilibre parfait.", dynamique: "Infrastructure de la mondialisation. Croissance structurelle décennale.", speculatif: "Trop stable pour ta recherche de volatilité. Garde pour le fond de portif." }
+  },
+
+  // ===== Industrie & Energie US =====
+  'XOM': {
+    business: "ExxonMobil est la plus grande major pétrolière occidentale. Le groupe opère dans l'exploration-production, le raffinage, la chimie et développe des solutions de capture carbone. Rachat de Pioneer Natural Resources en 2024.",
+    sante: "FCF massif quand le pétrole est élevé, dividende augmenté depuis 41 ans (Dividend Aristocrat), bilan solide. L'acquisition Pioneer multiplie la production dans le Permian Basin.",
+    moat: "Accès aux meilleures réserves mondiales, expertise technique sur les projets complexes (offshore deepwater, GNL), intégration verticale du puit à la pompe.",
+    croissance: "Le Permian Basin (Texas) est l'actif clé avec Pioneer. Projets GNL en Mozambique, Qatar. Carbon Capture comme business futur. Production record en 2024.",
+    risques: "Prix du pétrole volatile, transition énergétique accélérée, risque réputationnel ESG, régulation carbone aux USA.",
+    macro: "La géopolitique (Moyen-Orient, Russie) et la politique OPEP+ déterminent le prix du baril. La transition énergétique est le risque de long terme mais le pétrole reste incontournable à 10-15 ans.",
+    enjeux: "Intégration de Pioneer (60 Mds$). Pression des actionnaires sur la stratégie climatique. Prix du baril WTI : chaque 10$ = impact majeur sur les bénéfices.",
+    profils: { prudent: "ACHETER", equilibre: "ACHETER", dynamique: "ATTENDRE", speculatif: "ATTENDRE" },
+    avis: { prudent: "Dividend Aristocrat 41 ans. Rendement 3-4% stable. Valeur refuge pour toi.", equilibre: "Bonne position de diversification avec rendement solide.", dynamique: "Peu de croissance structurelle. Utile pour du rendement mais pas de momentum.", speculatif: "Joue le pétrole via des futures ou des producteurs plus petits et volatils." }
+  },
+
+  // ===== Europe =====
+  'SIE.DE': {
+    business: "Siemens est un conglomérat industriel allemand leader dans l'automatisation (Factory Automation), la gestion de l'énergie (Smart Infrastructure), les trains (Siemens Mobility) et la santé (Siemens Healthineers coté séparément).",
+    sante: "Bilan solide, marge opérationnelle en amélioration (10-12%), dividende régulier. La transformation de Siemens en entreprise tech industrielle (Digital Industries) est en cours.",
+    moat: "Leadership technologique en automatisation industrielle, systèmes de contrôle SCADA largement déployés et difficiles à remplacer, expertise dans la digitalisation des usines (jumeau numérique).",
+    croissance: "Automatisation et robotique en fort développement (shortage main d'oeuvre), infrastructure électrique pour la transition énergétique, Siemens Mobility avec les trains à grande vitesse.",
+    risques: "Exposition à l'industrie allemande (en difficulté), ralentissement de la Chine (marché important), cycles capex industriels, concurrence ABB et Rockwell Automation.",
+    macro: "La réindustrialisation européenne et américaine (CHIPS Act, IRA) est un catalyseur. La Chine ralentit — marché important pour Siemens. L'électrification mondiale nécessite les équipements Siemens.",
+    enjeux: "Séparation de Siemens Energy (déjà cotée). Réindustrialisation Europe post-COVID. Commandes en carnet solide. Digitalisation industrielle (Xcelerator).",
+    profils: { prudent: "ATTENDRE", equilibre: "ACHETER", dynamique: "ACHETER", speculatif: "ATTENDRE" },
+    avis: { prudent: "Cyclique et exposé à l'Allemagne en difficulté. Attends la stabilisation macro.", equilibre: "Leader industriel tech bien positionné sur l'automatisation. Bon rapport Q/P.", dynamique: "Bénéficie de la réindustrialisation mondiale. Position de conviction moyen terme.", speculatif: "Pas assez volatile. Cherche des valeurs industrielles plus cycliques." }
+  },
+  'NESN.SW': {
+    business: "Nestlé est le plus grand groupe alimentaire mondial avec des marques iconiques (Nescafé, Kit Kat, Maggi, Perrier, Purina, Milo). Le groupe opère dans 190 pays avec 280 000 collaborateurs. Focus sur la nutrition, santé et bien-être.",
+    sante: "Croissance organique régulière (4-6%/an), dividende ininterrompu depuis 60+ ans, marges stables. Le portefeuille est en transformation (vente des marques peu rentables, acquisition de nutrition santé).",
+    moat: "Portefeuille de marques mondiales iconiques, distribution en capillaire dans 190 pays (avantage logistique imbattable), R&D nutrition leader mondial, relation privilégiée avec la GMS mondiale.",
+    croissance: "Nutrition médicale (croissance rapide), café premium (Nespresso, Starbucks licensing), alimentation animale premium (Purina), marchés émergents.",
+    risques: "Inflation des matières premières (cacao, blé, café), concurrence des marques distributeurs, pression des consommateurs sur les prix, ESG (eau, packaging plastique).",
+    macro: "La consommation alimentaire est peu cyclique. L'inflation a permis de relever les prix mais crée de la pression volume. Les marchés émergents sont le moteur de croissance longue.",
+    enjeux: "Mark Schneider sous pression des actionnaires activistes (Artisan Partners). Cessions de marques peu rentables. Objectifs de croissance revus à la baisse. Le cacao atteint des prix records.",
+    profils: { prudent: "ACHETER", equilibre: "ACHETER", dynamique: "ATTENDRE", speculatif: "EVITER" },
+    avis: { prudent: "Le classique défensif par excellence. Dividende depuis 60 ans. Parfait pour toi.", equilibre: "Bon ancrage défensif dans un portif diversifié.", dynamique: "Croissance trop faible pour un profil dynamique. Complément de portif seulement.", speculatif: "Aucun intérêt pour du spéculatif. Trop stable et prévisible." }
+  },
+
+  // ===== Autos =====
+  'BMW.DE': {
+    business: "BMW Group fabrique des véhicules premium et de luxe (BMW, MINI, Rolls-Royce) et développe massivement l'électrique (iX, i4, i5, i7, i-series). Leader de la mobilité premium avec 2,5M véhicules vendus en 2023.",
+    sante: "Marges opérationnelles élevées pour un constructeur (8-10%), dividende généreux (5-6% de rendement), bilan solide. La transition EV impacte temporairement les marges.",
+    moat: "Marque premium forte, relation client fidèle (loyauté élevée), expertise technologique sur le conducteur (systèmes ADAS, iDrive), réseau de concessionnaires mondial.",
+    croissance: "Électrification accélérée de la gamme, marchés émergents (Chine premium), Rolls-Royce en forte croissance dans le ultra-luxe, BMW Motorrad.",
+    risques: "Exposition Chine massive (30%+ des ventes), concurrence EV chinoise (BYD, NIO) sur le premium, cycle automobile volatile, transition EV coûteuse.",
+    macro: "Taux élevés pèsent sur le crédit auto. La Chine est critique — tout ralentissement impacte fortement BMW. L'essor des EV chinois dans le premium est la menace principale.",
+    enjeux: "BYD attaque le premium en Chine avec des véhicules de qualité à prix compétitifs. BMW investit massivement dans l'EV (Neue Klasse 2025). Résultats solides malgré le contexte difficile.",
+    profils: { prudent: "ATTENDRE", equilibre: "ATTENDRE", dynamique: "ACHETER", speculatif: "ACHETER" },
+    avis: { prudent: "Cyclique et exposé à la Chine. Trop de risques pour ton profil.", equilibre: "Valorisation attractive (P/E <7x) mais contexte difficile. Attends la clarification Chine.", dynamique: "Décote injustifiée si la transition EV réussit. Pari contrarian intéressant.", speculatif: "Valorisation très basse = upside asymétrique si la Chine rebondit. Position tactique." }
+  },
+
+  // ===== Autres grandes valeurs US =====
+  'WMT': {
+    business: "Walmart est le plus grand distributeur mondial avec 10 000+ magasins, Walmart.com en forte croissance et Flipkart (Inde). Le groupe développe aussi la pub digitale (Walmart Connect) et les services financiers.",
+    sante: "CA de 650 Mds$, dividende augmenté depuis 50 ans (Dividend King), bilan solide. Les marges sont faibles (3%) mais les volumes sont colossaux. Walmart+ (abonnement) monte en puissance.",
+    moat: "Pouvoir de négociation imbattable avec les fournisseurs, réseau logistique unique aux USA, prix les plus bas (Every Day Low Price), loyauté des clients à budget contraint.",
+    croissance: "E-commerce (+25%/an), Walmart+ (rival Amazon Prime), publicité in-store et digitale (1 Md$ de revenus pub), Flipkart en Inde, santé (Walmart Health Centers).",
+    risques: "Marges structurellement faibles, concurrence Amazon sur le e-commerce, coûts de la main d'oeuvre (salaire minimum), inflation qui réduit le pouvoir d'achat des clients.",
+    macro: "Walmart est anti-cyclique : en récession, les consommateurs se tournent vers le moins cher. Le vieillissement de la clientèle américaine favorise les formats discount.",
+    enjeux: "Transformation digitale accélérée. Walmart+ comme alternative à Amazon Prime. Expansion de la publicité. Pression sur les prix avec l'inflation alimentaire persistante.",
+    profils: { prudent: "ACHETER", equilibre: "ACHETER", dynamique: "ATTENDRE", speculatif: "EVITER" },
+    avis: { prudent: "Dividend King 50 ans. Anti-cyclique par excellence. Sécurité maximale.", equilibre: "Défensif avec un bonus de croissance digitale. Bonne diversification.", dynamique: "Croissance e-commerce intéressante mais marges trop faibles pour de la performance.", speculatif: "Aucun intérêt. Trop stable et peu volatile." }
+  },
+  'NFLX': {
+    business: "Netflix est le leader mondial du streaming avec 270M+ abonnés dans 190 pays. Le groupe produit des contenus originaux (Stranger Things, The Crown, Squid Game) et diversifie vers la pub (tier avec pubs) et le gaming.",
+    sante: "Rentabilité restaurée après la crise 2022. Marge opérationnelle de 20%+, FCF positif pour la première fois. Croissance des abonnés revenue après le partage de compte payant.",
+    moat: "Catalogue de contenus mondiaux impossible à répliquer rapidement, algorithme de recommandation supérieur, production locale dans 50 pays qui crée un ancrage culturel fort.",
+    croissance: "Publicité (tier pub en forte croissance), gaming intégré dans l'abonnement, live events (sport, concerts), expansion dans les marchés émergents, partage de compte monétisé.",
+    risques: "Compétition intense (Disney+, Max, Apple TV+, Amazon), saturation dans les marchés matures, coûts de contenu élevés, risque de perte d'abonnés si la qualité déçoit.",
+    macro: "Le streaming est une tendance séculaire vs la TV linéaire. La montée en puissance de la pub sur streaming est un méga-marché. Les taux élevés impactent la valorisation.",
+    enjeux: "La publicité est le nouveau moteur de croissance. Live events (Tyson vs Paul). La rentabilité s'améliore structurellement. Le gaming reste marginal mais stratégique.",
+    profils: { prudent: "EVITER", equilibre: "ATTENDRE", dynamique: "ACHETER", speculatif: "ACHETER" },
+    avis: { prudent: "Volatilité et compétition trop élevées pour ton profil.", equilibre: "Rentabilité améliorée mais compétition forte. Petite position en surveillance.", dynamique: "La pub + live events = catalyseurs puissants. Momentum favorable.", speculatif: "Retournement spectaculaire depuis 2022. La pub peut surprendre à la hausse." }
+  },
+  'DIS': {
+    business: "Walt Disney est un empire du divertissement : parcs à thème (Disneyland, Walt Disney World), studios (Marvel, Pixar, Star Wars, Disney), TV (ABC, ESPN) et streaming (Disney+, Hulu, ESPN+).",
+    sante: "Streaming enfin rentable en 2024. Les parcs génèrent des marges record. Dividende suspendu mais repris modestement. Bob Iger de retour pour restructurer.",
+    moat: "IP (propriété intellectuelle) la plus valorisée de l'histoire du divertissement (Disney, Marvel, Star Wars, Pixar, National Geographic). Les parcs sont irréplicables. Nostalgie et loyauté transgénérationnelle.",
+    croissance: "Disney+ vers la profitabilité, ESPN direct-to-consumer, expérience parcs premium (Star Wars Galaxy Edge, Avatar), contenu live et sport.",
+    risques: "Compétition streaming (Netflix, Max, Amazon), coûts de contenu élevés, politique (controverses ESG), Iger qui repart en 2026 — succession critique.",
+    macro: "Le pouvoir d'achat des ménages impacte les parcs (tickets très chers). Le streaming est structurellement en croissance mais le marché se consolide.",
+    enjeux: "Fusion ESPN DTC en 2025. Rentabilité streaming atteinte. Succession d'Iger. La magie Disney revient-elle au cinéma ? Les suites Marvel déçoivent au box office.",
+    profils: { prudent: "ATTENDRE", equilibre: "ATTENDRE", dynamique: "ACHETER", speculatif: "ACHETER" },
+    avis: { prudent: "Restructuration en cours. Trop d'incertitudes pour ton profil. Attends.", equilibre: "Valeur de recovery intéressante mais patience requise. DCA progressif.", dynamique: "La revalorisation post-restructuration peut être forte. Conviction contrarian.", speculatif: "Retournement possible si ESPN DTC et streaming performent. Pari risqué mais asymétrique." }
+  },
+  'ENGI.PA': {
+    business: "Engie est un leader mondial de l'énergie (électricité, gaz, services) en pleine transition vers les énergies renouvelables. Le groupe opère des réseaux de distribution, des centrales et des services aux collectivités dans 30+ pays.",
+    sante: "Dividende généreux (5-7% de rendement), dette maîtrisée, revenus réguliers grâce aux contrats long terme avec les collectivités. La vente des actifs fossiles améliore le bilan.",
+    moat: "Infrastructures réglementées (réseaux de gaz, distribution électrique) avec des concessions à long terme. Les coûts de duplication sont prohibitifs. Relation privilégiée avec les collectivités françaises.",
+    croissance: "Renouvelables en forte expansion (solaire, éolien, hydro), services d'efficacité énergétique aux entreprises, hydrogène vert. Objectif 80 GW de capacité renouvelable d'ici 2030.",
+    risques: "Régulation tarifaire qui plafonne les revenus, exposition aux prix du gaz et de l'électricité, endettement structurel lié aux gros investissements, risque géopolitique (Moyen-Orient, Afrique).",
+    macro: "La transition énergétique européenne est un moteur structurel massif pour Engie. Les prix de l'électricité en Europe sont en normalisation après la crise 2022-2023. Les taux élevés pèsent sur les utility.",
+    enjeux: "Accélération du plan renouvelables. Hydrogen Juno (projet hydrogène France). L'Europe cherche à se réindustrialiser — besoin massif en électricité décarbonée. CEO Catherine MacGregor exécute la stratégie.",
+    profils: { prudent: "ACHETER", equilibre: "ACHETER", dynamique: "ATTENDRE", speculatif: "EVITER" },
+    avis: { prudent: "Dividende élevé et revenus réguliers. Parfait pour chercher du rendement stable.", equilibre: "Bon rapport rendement/risque. La transition verte est un moteur de long terme.", dynamique: "Croissance correcte mais lente. Complément pour stabiliser un portif dynamique.", speculatif: "Pas de place dans un portif spéculatif — trop régulé et prévisible." }
+  },
+  'VIE.PA': {
+    business: "Veolia est le leader mondial des services environnementaux : traitement de l'eau, gestion des déchets et énergie. Après la fusion avec Suez en 2022, Veolia est devenu un géant incontesté de l'écologie industrielle dans 57 pays.",
+    sante: "Revenus très récurrents grâce aux contrats long terme avec municipalités et industriels. Dividende solide, bilan en amélioration post-fusion Suez. Marge opérationnelle autour de 7-8%.",
+    moat: "Contrats de concession long terme (20-30 ans) avec les collectivités publiques pour la distribution d'eau. Le réseau d'infrastructure est impossible à dupliquer. Leader par la taille avec des économies d'échelle uniques.",
+    croissance: "Synergies Suez encore à capturer, services aux industriels pour décarboner leur production, traitement des eaux usées dans les pays émergents, valorisation des déchets en énergie.",
+    risques: "Intégration complexe de Suez, dette encore élevée, dépendance aux contrats publics (risque politique), marges sous pression inflationniste.",
+    macro: "La raréfaction de l'eau est une mégatendance mondiale. La réglementation environnementale européenne (Taxonomie verte) oriente les capitaux vers Veolia. Les taux élevés pèsent sur la valorisation.",
+    enjeux: "Intégration de Suez (2024-2025 décisifs). Plan de désendettement. Estelle Brachlianoff (CEO) exécute la transformation. Les objectifs de synergies à 500M€ doivent être atteints.",
+    profils: { prudent: "ACHETER", equilibre: "ACHETER", dynamique: "ATTENDRE", speculatif: "EVITER" },
+    avis: { prudent: "Revenus récurrents et dividende solide. Valeur verte défensive idéale.", equilibre: "L'eau est une mégatendance. Bonne valeur ESG avec rendement correct.", dynamique: "Croissance limitée. Utile pour équilibrer un portif mais pas pour performer.", speculatif: "Trop prévisible et régulé. Pas de place dans un portif spéculatif." }
+  },
+  'KER.PA': {
+    business: "Kering est le deuxième groupe de luxe mondial avec Gucci, Saint Laurent, Bottega Veneta, Balenciaga, Alexander McQueen et les joailliers Boucheron et Pomellato. Gucci représente 50%+ des résultats.",
+    sante: "Marges solides (25%+ opérationnel), bilan sain. Cependant Gucci traverse une phase de repositionnement difficile depuis 2023 avec des ventes en baisse, ce qui pèse sur les résultats.",
+    moat: "Maisons de luxe historiques avec des héritages impossibles à créer ex-nihilo. Gucci est une des marques les plus connues au monde. Distribution contrôlée exclusivement en propre.",
+    croissance: "Repositionnement de Gucci vers le luxe absolu (nouveau CEO Stefano Cantino), montée en puissance de Saint Laurent et Bottega, joaillerie comme nouveau relais.",
+    risques: "Dépendance à Gucci (50%+ des résultats), repositionnement risqué (perte de clientèle aspirationnelle), Chine en ralentissement (30%+ des ventes), compétition intense avec LVMH.",
+    macro: "Même macro que LVMH : consommateur chinois clé, tourisme mondial, richesse des HNWI. Kering souffre plus car Gucci est plus exposé aux classes moyennes-aisées que Louis Vuitton.",
+    enjeux: "Le repositionnement de Gucci est le sujet numéro 1. François-Henri Pinault parie sur le retour au luxe absolu. Les collections 2025 seront déterminantes. Décote vs LVMH justifiée ?",
+    profils: { prudent: "EVITER", equilibre: "ATTENDRE", dynamique: "ATTENDRE", speculatif: "ACHETER" },
+    avis: { prudent: "Trop de risques liés à la restructuration Gucci. À éviter.", equilibre: "Attends la confirmation du repositionnement Gucci avant d'entrer.", dynamique: "Dossier contrarian intéressant si Gucci rebondit. DCA très progressif.", speculatif: "Décote massive vs LVMH. Si Gucci revient, le potentiel de rattrapage est énorme." }
+  },
+  'RI.PA': {
+    business: "Pernod Ricard est le deuxième groupe de vins et spiritueux mondial (Absolut, Chivas Regal, Jameson, Martell, Mumm, Ruinart, Malibu). Présent dans 160 pays, le groupe est particulièrement exposé à l'Asie (Chine, Inde).",
+    sante: "Dividende en croissance régulière, marges opérationnelles de 27-30%, bilan solide. La normalisation des stocks en Chine post-COVID a pesé temporairement sur les résultats 2023-2024.",
+    moat: "Marques de spiritueux premium aux histoires centenaires, impossible à créer rapidement. La whisky et le cognac bénéficient de l'effet vieillissement (les stocks vieillissent = valeur croît avec le temps).",
+    croissance: "Premiumisation mondiale des spiritueux, Inde (nouveau marché massif), whisky indien (Royal Stag), cocktail culture mondiale. Le marché des spiritueux premium devrait doubler d'ici 2030.",
+    risques: "Exposition Chine (cognac Martell en difficulté après droits de douane). Taxe alcool en hausse dans certains pays. Changements de consommation (sobriété des millennials, GLP-1).",
+    macro: "La premiumisation des spiritueux est une tendance séculaire mondiale. La Chine post-COVID normalise ses stocks — impact temporaire. L'Inde est le nouveau eldorado des spiritueux.",
+    enjeux: "Droits de douane chinois sur le cognac (Martell impacté). Normalisation des stocks Chine. Nouveau CEO Alexandre Ricard accélère sur l'Inde. Pression des GLP-1 sur la consommation d'alcool.",
+    profils: { prudent: "ATTENDRE", equilibre: "ACHETER", dynamique: "ACHETER", speculatif: "ACHETER" },
+    avis: { prudent: "Bonne qualité mais risque Chine et valorisation. Attends la normalisation.", equilibre: "Point d'entrée attractif après la correction 2023-2024. DCA sur 6 mois.", dynamique: "L'Inde est un catalyseur décennal. La correction Chine est temporaire.", speculatif: "Décote vs l'historique. Le rebond Chine + Inde peut être explosif." }
+  },
+  'AI.PA': {
+    business: "Air Liquide est le leader mondial des gaz industriels (oxygène, azote, hydrogène, hélium). Le groupe fournit les industries (sidérurgie, chimie), les hôpitaux (oxygène médical) et développe l'hydrogène propre.",
+    sante: "Croissance régulière depuis 50 ans, dividende en hausse ininterrompue depuis 35+ ans, marges stables (20%+). Les contrats long terme avec les industriels assurent une visibilité exceptionnelle.",
+    moat: "Une fois qu'Air Liquide installe ses pipelines sur un site industriel, le client est captif pour 20-30 ans. Les coûts de switching sont prohibitifs. Effet réseau des pipelines industriels.",
+    croissance: "Hydrogène propre (100+ projets en cours), santé à domicile en forte croissance, électronique (semi-conducteurs nécessitent des gaz ultra-purs), marchés émergents.",
+    risques: "Capex très élevé (10 Mds€/an), taux d'intérêt élevés qui pèsent sur les investissements, risque exécution des grands projets hydrogène.",
+    macro: "La décarbonation de l'industrie lourde passe obligatoirement par l'hydrogène — Air Liquide est idéalement positionné. L'électronique et les semis sont en forte demande.",
+    enjeux: "Le plan hydrogène est le sujet le plus suivi. Les projets IPCEI (Important Projects of Common European Interest) avec les fonds publics. Nominatif administré : +10% de dividende après 2 ans.",
+    profils: { prudent: "ACHETER", equilibre: "ACHETER", dynamique: "ACHETER", speculatif: "ATTENDRE" },
+    avis: { prudent: "La qualité de croissance la plus régulière du CAC 40. Dividende en hausse 35 ans.", equilibre: "Incontournable. Croissance régulière + hydrogène = valeur de conviction.", dynamique: "L'hydrogène est le prochain mégatrend industriel. Position de long terme.", speculatif: "Trop lisse pour du spéculatif. Garde pour la base du portif." }
+  },
+
+  // ===== VALEURS US SUPPLEMENTAIRES =====
+  'AMD': {
+    business: "AMD conçoit des processeurs CPU (Ryzen, EPYC) et GPU (Instinct MI300) pour PC, serveurs et IA. En forte croissance dans l'IA avec le MI300X qui concurrence directement le H100 de NVIDIA.",
+    sante: "Croissance forte du datacenter, marge brute en amélioration (50%+), bilan solide après l'acquisition de Xilinx. Les CPU EPYC gagnent des parts de marché sur Intel dans les datacenters.",
+    moat: "Architecture x86 partagée avec Intel (duopole), expertise CPU server avec EPYC, intégration chiplet pionnière. Mais MOAT plus faible que NVIDIA sur les GPU IA.",
+    croissance: "MI300X en fort déploiement dans les datacenters IA (alternative à H100), EPYC continue de gagner des PDM sur Intel, Xilinx (FPGA) pour les réseaux télécom.",
+    risques: "NVIDIA domine à 80% le marché GPU IA, Intel se refait sur le CPU, cycle semis volatile, concurrence des chips propriétaires des géants (Google TPU, AWS Trainium).",
+    macro: "L'investissement IA massif des hyperscalers bénéficie à AMD comme alternative à NVIDIA. La diversification des fournisseurs GPU est une tendance de fond.",
+    enjeux: "MI350 et MI400 en développement — crucial pour rester dans la course face à Blackwell. Lisa Su est reconnue comme l'un des meilleurs CEO de la tech. Parts de marché EPYC vs Intel.",
+    profils: { prudent: "EVITER", equilibre: "ATTENDRE", dynamique: "ACHETER", speculatif: "ACHETER" },
+    avis: { prudent: "Volatilité semis incompatible avec ton profil.", equilibre: "Alternative intéressante à NVIDIA mais risque de dilution concurrentielle. Petite position.", dynamique: "Si l'IA diversifie ses fournisseurs GPU, AMD est le grand gagnant.", speculatif: "Beta élevé sur l'IA. Upside fort si MI300 prend des PDM à NVIDIA." }
+  },
+  'PYPL': {
+    business: "PayPal est le leader mondial des paiements en ligne (Venmo, Braintree, PayPal Checkout). 400M+ utilisateurs actifs, présent dans 200 pays. Le groupe cherche à se repositionner après des années difficiles.",
+    sante: "FCF solide (5 Mds$/an), rachat d'actions massif, marge en amélioration. La croissance des utilisateurs actifs s'est arrêtée post-COVID mais la monétisation par utilisateur progresse.",
+    moat: "Marque de confiance dans les paiements en ligne, réseau de 400M utilisateurs, intégration profonde dans le e-commerce mondial. Mais le MOAT s'érode face à Apple Pay et Google Pay.",
+    croissance: "Fastlane (checkout ultra-rapide), Pay with Venmo, publicité (Ads network avec les données d'achat), BNPL (Buy Now Pay Later). Nouveau CEO Alex Chriss accélère la transformation.",
+    risques: "Concurrence Apple Pay, Google Pay, Shop Pay qui s'intègrent directement sur mobile. Pression sur les frais de transaction. Croissance des utilisateurs actifs stagnante.",
+    macro: "La dématérialisation des paiements est une tendance séculaire mais le marché se fragmente. Les paiements mobiles natifs (Apple Pay) désintermédiatsent PayPal.",
+    enjeux: "Alex Chriss (nouveau CEO) restructure. Fastlane est le produit clé 2024. La pub digitale via les données d'achat est un nouveau moteur. Rachat d'actions pour soutenir le cours.",
+    profils: { prudent: "EVITER", equilibre: "ATTENDRE", dynamique: "ATTENDRE", speculatif: "ACHETER" },
+    avis: { prudent: "Trop de risques de disruption pour ton profil.", equilibre: "Attends la confirmation du repositionnement avant d'entrer.", dynamique: "Dossier de restructuration — attends les premiers signes de réussite.", speculatif: "Valorisation très basse (P/E 15x). Si la restructuration réussit, upside massif." }
+  },
+  'UBER': {
+    business: "Uber est le leader mondial des VTC (Uber Ride), de la livraison (Uber Eats) et du fret (Uber Freight). Présent dans 70+ pays avec 150M+ utilisateurs actifs mensuels. Enfin rentable depuis 2023.",
+    sante: "Profitabilité atteinte pour la première fois en 2023 (EBITDA ajusté positif). FCF positif. La croissance du CA est forte (+15-20%/an). Pas de dividende mais rachat d'actions initié.",
+    moat: "Effet réseau puissant (plus de chauffeurs = temps d'attente plus court = plus d'utilisateurs). Marketplace à deux faces difficile à répliquer. Données de mobilité urbaine uniques.",
+    croissance: "Uber One (abonnement), publicité in-app, autonomous vehicles (partenariats Waymo), Uber Eats, expansion marchés émergents.",
+    risques: "Réglementation statut des chauffeurs (coût salariat), concurrence Lyft (USA), Grab (Asie), Bolt (Europe), véhicules autonomes qui pourraient disrupter le modèle chauffeur.",
+    macro: "La mobilité urbaine rebondit post-COVID. L'inflation réduit les tips des chauffeurs. Le VTC est devenu un service essentiel dans les métropoles mondiales.",
+    enjeux: "Partenariat avec Waymo (robotaxis sur la plateforme Uber). Réglementation chauffeurs en Europe. Monétisation publicitaire. Dara Khosrowshahi a redressé Uber spectaculairement.",
+    profils: { prudent: "EVITER", equilibre: "ATTENDRE", dynamique: "ACHETER", speculatif: "ACHETER" },
+    avis: { prudent: "Pas de dividende, profil risqué. Incompatible avec ton profil.", equilibre: "Rentabilité naissante mais compétition forte. Petite position de conviction.", dynamique: "Plateforme en monétisation. Les robotaxis sont un catalyseur massif.", speculatif: "Fort momentum depuis 2023. Les robotaxis Waymo peuvent décupler la valeur." }
+  },
+  'BA': {
+    business: "Boeing est le duopoliste mondial de la construction aéronautique civile (737, 767, 777, 787 Dreamliner) et militaire (F/A-18, KC-46, satellites). Concurrent direct d'Airbus sur le marché civil.",
+    sante: "Situation financière difficile : pertes accumulées, dette élevée (50 Mds$), production 737 MAX toujours contrainte par les régulateurs. La grève de 2024 a aggravé la situation.",
+    moat: "Duopole avec Airbus, expertise aéronautique centenaire, contrats militaires US gouvernementaux long terme, carnet de commandes de 500+ Mds$.",
+    croissance: "Rampe de production 737 MAX, 777X en développement, contrats militaires Next-Gen Fighter, New Midmarket Airplane (NMA) à étudier.",
+    risques: "Problèmes de qualité (porte arrachée sur Alaska Airlines 2024), régulation FAA très stricte, dette élevée, grève récurrente des employés, concurrence Airbus qui gagne des PDM.",
+    macro: "La demande aéronautique est forte (trafic aérien en croissance). Boeing est pénalisé par ses propres problèmes alors qu'Airbus bénéficie de la conjoncture favorable.",
+    enjeux: "Nouveau CEO Kelly Ortberg (2024) doit restaurer la qualité et la confiance. Production 737 MAX sous plafond FAA. Levée de capital nécessaire pour réduire la dette. Plan de redressement critique.",
+    profils: { prudent: "EVITER", equilibre: "EVITER", dynamique: "ATTENDRE", speculatif: "ACHETER" },
+    avis: { prudent: "Trop de risques de bilan et de qualité. À éviter absolument.", equilibre: "Les risques de bilan et de production sont trop importants. Reste à l'écart.", dynamique: "Attends la confirmation du redressement (2025-2026) avant d'entrer.", speculatif: "Si Boeing se redresse, le potentiel est énorme depuis les niveaux bas. Pari asymétrique." }
+  }
+};
+
+// Fonction d'analyse statique
+function analyseIA(d) {
+  const sym = d.symbol;
+  const profil = currentProfil || 'equilibre';
+  const analyse = ANALYSES[sym];
+
+  document.getElementById('analyse-ia-loading').style.display = 'none';
+
+  if (!analyse) {
+    // Analyse générique si pas dans la base
+    const change = d.prev ? ((d.price - d.prev) / d.prev * 100) : 0;
+    const isUp = change >= 0;
+    const verdictEl = document.getElementById('ia-verdict');
+    verdictEl.style.display = 'block';
+    verdictEl.style.background = 'var(--amber-pale)';
+
+    const decisions = {
+      prudent: change > 1 ? 'ATTENDRE' : 'ATTENDRE',
+      equilibre: isUp ? 'ATTENDRE' : 'ATTENDRE',
+      dynamique: isUp ? 'ATTENDRE' : 'ATTENDRE',
+      speculatif: isUp ? 'ATTENDRE' : 'ATTENDRE'
+    };
+
+    document.getElementById('ia-verdict-text').textContent =
+      "Cette action n'est pas encore dans notre base d'analyse. Consulte les données financières brutes ci-dessus et fais ta propre recherche.";
+    const badge = document.getElementById('ia-decision-badge');
+    badge.textContent = "📊 EN ATTENTE D'ANALYSE";
+    badge.style.background = 'var(--amber-pale)';
+    badge.style.color = 'var(--amber)';
+
+    document.getElementById('ia-business').textContent = "Analyse non disponible pour cet actif. Recherchez le ticker sur Boursorama, Zonebourse ou Yahoo Finance pour les données fondamentales.";
+    document.getElementById('ia-sante').textContent = "Consultez le bilan, le compte de résultat et le FCF sur les sites spécialisés.";
+    document.getElementById('ia-moat').textContent = "Évaluez la position concurrentielle de l'entreprise dans son secteur.";
+    document.getElementById('ia-croissance').textContent = "Regardez le consensus des analystes et les objectifs de cours.";
+    document.getElementById('ia-risques').textContent = "Identifiez les risques sectoriels et spécifiques à l'entreprise avant d'investir.";
+    document.getElementById('ia-macro').textContent = "Tenez compte du contexte de taux, d'inflation et de cycle économique.";
+    document.getElementById('ia-enjeux').textContent = "Suivez les dernières actualités de l'entreprise sur Google Actualités.";
+    document.getElementById('ia-sections').style.display = 'block';
+    return;
+  }
+
+  // Afficher le verdict avec la décision selon le profil
+  const decision = analyse.profils[profil];
+  const avis = analyse.avis[profil];
+
+  const verdictEl = document.getElementById('ia-verdict');
+  verdictEl.style.display = 'block';
+  verdictEl.style.background = decision === 'ACHETER' ? '#E8F5E9' : decision === 'EVITER' ? '#FFEBEE' : '#FDF3E3';
+
+  document.getElementById('ia-verdict-text').textContent = avis;
+
+  const badge = document.getElementById('ia-decision-badge');
+  const icons = { ACHETER: '✅', ATTENDRE: '⏳', EVITER: '🚫' };
+  const colors = { ACHETER: { bg: '#E8F5E9', text: '#2D7A4F' }, ATTENDRE: { bg: '#FFF3E0', text: '#E67E22' }, EVITER: { bg: '#FFEBEE', text: '#C0392B' } };
+  badge.textContent = icons[decision] + ' ' + decision;
+  badge.style.background = colors[decision].bg;
+  badge.style.color = colors[decision].text;
+
+  // Remplir toutes les sections
+  document.getElementById('ia-business').textContent = analyse.business;
+  document.getElementById('ia-sante').textContent = analyse.sante;
+  document.getElementById('ia-moat').textContent = analyse.moat;
+  document.getElementById('ia-croissance').textContent = analyse.croissance;
+  document.getElementById('ia-risques').textContent = analyse.risques;
+  document.getElementById('ia-macro').textContent = analyse.macro;
+  document.getElementById('ia-enjeux').textContent = analyse.enjeux;
+  document.getElementById('ia-sections').style.display = 'block';
+}
+
 </script>
 </body>
 </html>
